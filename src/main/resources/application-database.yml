@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${DATABASE-URL}?useSSL=false&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
+    username: ${DATABASE-NAME}
+    password: ${DATABASE-PASSWORD}
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      current_session_context_class: org.springframework.orm.hibernate5.SpringSessionContext
+    database-platform: org.hibernate.dialect.MySQLDialect
