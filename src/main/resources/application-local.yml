@@ -4,5 +4,9 @@ spring:
       on-profile: local
     import: application-database.yml, application-swagger.yml
 
+auth:
+  jwt:
+    secret: ${JWT-SECRET}
+
 server:
   port: 8080
