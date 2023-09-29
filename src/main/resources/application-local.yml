@@ -1,0 +1,8 @@
+spring:
+  config:
+    activate:
+      on-profile: local
+    import: application-database.yml, application-swagger.yml
+
+server:
+  port: 8080
