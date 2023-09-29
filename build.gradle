@@ -31,6 +31,10 @@ dependencies {
     //redis
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
+    //json 
+    implementation 'com.fasterxml.jackson.module:jackson-module-jakarta-xmlbind-annotations'
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.15.1'
+
     //jwt
     implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
     implementation 'io.jsonwebtoken:jjwt-impl:0.11.5'
