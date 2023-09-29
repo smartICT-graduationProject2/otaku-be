@@ -1,4 +1,4 @@
-package com.otaku.otakube.common.utils.serializer;
+package com.otaku.otakube.utils.serializer;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
