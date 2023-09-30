@@ -46,6 +46,11 @@ public enum ErrorDetails implements ResponseDetails {
     INVALID_ROLE_ERROR(4002, HttpStatus.INTERNAL_SERVER_ERROR.value(), "유효하지 않은 ROLE입니다. 사용자, 기관, 관리자 여부를 다시 확인해주세요."),
     IPFS_CONNECTION_ERROR(4003, HttpStatus.INTERNAL_SERVER_ERROR.value(), "IPFS 연결 중 오류가 발생했습니다."),
 
+    /**
+     * 4000: 사용자 오류
+     */
+    USER_NOT_FOUND(5000, HttpStatus.BAD_REQUEST.value(), "존재하지 않는 사용자입니다.")
+
     ;
 
 

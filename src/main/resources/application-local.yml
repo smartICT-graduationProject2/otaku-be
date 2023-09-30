@@ -4,5 +4,14 @@ spring:
       on-profile: local
     import: application-database.yml, application-swagger.yml
 
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+auth:
+  jwt:
+    secret: ${JWT-SECRET}
+
 server:
   port: 8080
