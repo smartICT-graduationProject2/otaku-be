@@ -11,7 +11,7 @@ spring:
 
 auth:
   jwt:
-    secret: ${JWT-SECRET}
+    secret: ${JWT_SECRET}
 
 server:
   port: 8080
