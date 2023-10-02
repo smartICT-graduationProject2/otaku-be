@@ -1,0 +1,17 @@
+spring:
+  config:
+    activate:
+      on-profile: dev
+    import: application-database.yml, application-swagger.yml
+
+  data:
+    redis:
+      host: otaku-cluster.gon0eu.ng.0001.apn2.cache.amazonaws.com
+      port: 6379
+
+auth:
+  jwt:
+    secret: ${JWT_SECRET}
+
+server:
+  port: 8080
