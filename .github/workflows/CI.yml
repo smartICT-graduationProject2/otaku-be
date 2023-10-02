@@ -8,7 +8,7 @@ on:
 env:
   CODE_DEPLOY_APP_NAME: otaku-codedeploy
   DEPLOYMENT_GROUP_NAME: otaku-deploy
-  S3_BUCKET_NAME: otakubucket
+  BUCKET_NAME: otakubucket
   PROJECT_NAME: otaku_project
   DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
   DATABASE_PW: ${{ secrets.DATABASE_PW }}
