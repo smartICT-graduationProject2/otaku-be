@@ -26,7 +26,7 @@ public class UserCreateService {
         User createdUser = null;
         try{
             createdUser = userFindService.findUserByEmail(requestDto.email());
-        }catch (UserException e){
+        }catch (CustomException e){
             createdUser = userRepository.save(requestDto.toEntity());
         }
 
