@@ -6,7 +6,8 @@ on:
   workflow_dispatch: # 수동 실행
 
 env:
-
+  CODE_DEPLOY_APP_NAME: otaku-codedeploy
+  DEPLOYMENT_GROUP_NAME: otaku-deploy
   S3_BUCKET_NAME: otakubucket
   PROJECT_NAME: otaku_project
   DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
