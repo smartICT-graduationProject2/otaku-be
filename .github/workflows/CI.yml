@@ -6,8 +6,13 @@ on:
   workflow_dispatch: # 수동 실행
 
 env:
+
   S3_BUCKET_NAME: otakubucket
   PROJECT_NAME: otaku_project
+  DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
+  DATABASE_PW: ${{ secrets.DATABASE_PW }}
+  DATABASE_URL: ${{ secrets.DATABASE_URL }}
+  JWT_SECRET: ${{ secrets.JWT_SECRET }}
 
 permissions:
   contents: read
