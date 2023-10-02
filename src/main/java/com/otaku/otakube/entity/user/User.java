@@ -20,7 +20,7 @@ public class User extends BaseTimeEntity {
     @Column(columnDefinition = "VARCHAR(10)")
     private String name;
 
-    @Column(columnDefinition = "VARCHAR(40)", unique = true)
+    @Column(columnDefinition = "VARCHAR(40)")
     private String email;
 
     @Enumerated(EnumType.STRING)
