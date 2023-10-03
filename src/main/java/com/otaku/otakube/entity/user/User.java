@@ -31,6 +31,9 @@ public class User extends BaseTimeEntity {
     @Column(columnDefinition = "VARCHAR(7)")
     private ActiveStatus status;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private HostInspection hostInspection;
+
     public void withdrawUser(){
         this.status = ActiveStatus.DELETED;
     }
