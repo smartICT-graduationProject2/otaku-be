@@ -11,3 +11,18 @@ spring:
     properties:
       current_session_context_class: org.springframework.orm.hibernate5.SpringSessionContext
     database-platform: org.hibernate.dialect.MySQLDialect
+
+  cloud:
+    aws:
+      credentials:
+        access-key: ${S3_ACCESS_KEY}
+        secret-key: ${S3_SECRET_KEY}
+      s3:
+        bucket: otakubucket
+      region:
+        static: ap-northeast-2
+      stack:
+        auto: false
+  cdn:
+    url: https://dncn3ig9c12kd.cloudfront.net/
+
