@@ -2,9 +2,8 @@ package com.otaku.otakube.common.security.helper;
 
 import com.otaku.otakube.common.exception.constants.ErrorDetails;
 import com.otaku.otakube.common.exception.custom.CustomException;
-import com.otaku.otakube.entity.user.Role;
 import com.otaku.otakube.entity.user.User;
-import com.otaku.otakube.service.user.UserFindService;
+import com.otaku.otakube.service.user.UserReadService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,12 +15,12 @@ import java.util.Optional;
 @Slf4j
 @Component
 public class AuthInfoHelper {
-    private final UserFindService userFindService;
+    private final UserReadService userReadService;
 
     public User getUser() {
         final AuthInfo authInfo = getAuthInfo();
 
-        return userFindService.findUserById(getAuthInfo().getId());
+        return userReadService.findUserById(getAuthInfo().getId());
     }
 
     private AuthInfo getAuthInfo() {
