@@ -66,7 +66,7 @@ public class AuthController {
                     )
             }
     )
-    @PostMapping("/users/sign-up")
+    @PostMapping("/refresh-token")
     public ResponseEntity<BaseResponseDto<TokenResponseDto>> refreshTokens(@Valid @RequestBody final UserRefreshTokensRequestDto requestDto) {
         return BaseResponseDto.created(userReadService.refreshTokens(requestDto));
     }
