@@ -31,6 +31,10 @@ public class User extends BaseTimeEntity {
     @Column(columnDefinition = "VARCHAR(7)")
     private ActiveStatus status;
 
+    public void withdrawUser(){
+        this.status = ActiveStatus.DELETED;
+    }
+
     @Builder
     public User(String name, String email) {
         this.name = name;
