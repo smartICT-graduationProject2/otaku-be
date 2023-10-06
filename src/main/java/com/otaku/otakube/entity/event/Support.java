@@ -2,6 +2,7 @@ package com.otaku.otakube.entity.event;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -14,21 +15,22 @@ public class Support {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "support_id", updatable = false)
+    @Column
     private Long supportId;
 
-    @Column(name = "target_amount")
+    @Column
     private Long targetAmount;
 
-    @Column(name = "current_amount")
+    @Column
     private Long currentAmount;
 
-    @Column(name = "account_address")
+    @Column
     private String accountAddress;
 
-    @Column(name = "account_holder")
+    @Column
     private String accountHolder;
 
+    @Column
     @Enumerated(EnumType.STRING)
     private SupportStatus status;
 
@@ -36,17 +38,13 @@ public class Support {
     @JoinColumn(name = "event_id")
     private Event event;
 
+    @Builder
     public Support(Long targetAmount, Long currentAmount, String accountAddress, String accountHolder, Event event) {
         this.targetAmount = targetAmount;
         this.currentAmount = currentAmount;
         this.accountAddress = accountAddress;
         this.accountHolder = accountHolder;
-        if (targetAmount == 0) {
-            this.status = SupportStatus.COMPLETE;
-        } else {
-            this.status = SupportStatus.IN_PROGRESS;
-        }
+        this.status = SupportStatus.IN_PROGRESS;
         this.event = event;
-        event.addSupport(this);
     }
 }
