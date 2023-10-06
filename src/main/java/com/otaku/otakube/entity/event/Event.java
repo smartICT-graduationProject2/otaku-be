@@ -9,7 +9,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.Random;
 
 import static jakarta.persistence.FetchType.LAZY;
 
@@ -20,40 +19,45 @@ public class Event extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "event_id", updatable = false)
+    @Column
     private Long eventId;
 
+    @Column
     private String name;
 
+    @Column
     private String address;
 
+    @Column
     private Integer code;
 
-    @Column(name = "featured_image")
+    @Column
     private String featuredImage;
 
+    @Column
     private String description;
 
-    @Column(name = "is_public")
+    @Column
     private Boolean isPublic;
 
-    @Column(name = "x_nickname")
+    @Column
     private String xNickname;
 
-    @Column(name = "x_id")
+    @Column
     private String xId;
 
-    @Column(name = "perks_image")
+    @Column
     private String perksImage;
 
+    @Column
     @Temporal(TemporalType.DATE)
-    @Column(name = "opened_date")
     private LocalDate openedDate;
 
+    @Column
     @Temporal(TemporalType.DATE)
-    @Column(name = "closed_date")
     private LocalDate closedDate;
 
+    @Column
     @Enumerated(EnumType.STRING)
     private EventStatus status;
 
@@ -65,33 +69,24 @@ public class Event extends BaseTimeEntity {
     @JoinColumn(name = "subject_id")
     private Subject subject;
 
-    @OneToOne(mappedBy = "event", fetch = LAZY)
+    @OneToOne(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
     private Support support;
 
+    //TODO: 모금 여부에 따라서 status 와 support 지정하기
     @Builder
-    public Event(String name, String address, String featuredImage, String description, Boolean isPublic, String xNickname, String xId, String perksImage, LocalDate openedDate, LocalDate closedDate, User user, Subject subject) {
+    public Event(String name, String address, String featuredImage, String description, Boolean isPublic,
+                 String xNickname, String xId, String perksImage, LocalDate openedDate, LocalDate closedDate, User user, Subject subject) {
         this.name = name;
         this.address = address;
         this.featuredImage = featuredImage;
         this.description = description;
         this.isPublic = isPublic;
-        if (isPublic) {
-            Random random = new Random();
-            random.setSeed(System.currentTimeMillis());
-            this.code = random.nextInt(10000);
-        }
         this.xNickname = xNickname;
         this.xId = xId;
         this.perksImage = perksImage;
         this.openedDate = openedDate;
         this.closedDate = closedDate;
-        this.status = EventStatus.PREPARATION;
         this.user = user;
         this.subject = subject;
-//        user.getEvents().add(this); //User의 events에 event 추가
-    }
-
-    public void addSupport(Support support) {
-        this.support = support;
     }
 }
