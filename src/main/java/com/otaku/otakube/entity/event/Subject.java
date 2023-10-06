@@ -16,15 +16,17 @@ public class Subject {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "subject_id", updatable = false)
+    @Column
     private Long subjectId;
 
+    @Column
     private String category;
 
+    @Column
     private String name;
 
-//    @OneToMany(mappedBy = "subject")
-//    private List<Event> events = new ArrayList<>();
+    @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Event> eventList;
 
     @Builder
     public Subject(String category, String name) {
