@@ -33,4 +33,6 @@ public class EventLog extends BaseTimeEntity {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "event_id")
     private Event event;
+
+
 }

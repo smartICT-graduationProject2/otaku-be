@@ -3,12 +3,15 @@ package com.otaku.otakube.entity.log;
 import com.otaku.otakube.entity.common.ApprovalStatus;
 import com.otaku.otakube.entity.common.BaseTimeEntity;
 import com.otaku.otakube.entity.event.Event;
+import com.otaku.otakube.entity.event.Support;
 import com.otaku.otakube.entity.user.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import software.amazon.awssdk.services.s3.endpoints.internal.Value;
 
+import java.awt.print.Book;
 import java.time.LocalDate;
 
 import static jakarta.persistence.FetchType.LAZY;
@@ -35,14 +38,24 @@ public class SupportLog extends BaseTimeEntity {
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "supporter_id")
-    private User user;
+    private User supporter;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "event_id")
-    private Event event;
+    @JoinColumn(name = "support_id")
+    private Support support;
 
-    public SupportLog(String authUrl, Long supportAmount) {
+    public SupportLog(User supporter, String authUrl, Long supportAmount, Support support) {
+        this.supporter = supporter;
         this.authUrl = authUrl;
         this.supportAmount = supportAmount;
+        this.support = support;
+    }
+
+    public void changeStatus(Boolean isApproved) {
+        if (isApproved) {
+            status = ApprovalStatus.APPROVED;
+        } else {
+            status = ApprovalStatus.RECEPTION;
+        }
     }
 }
