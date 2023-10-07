@@ -8,7 +8,7 @@ import lombok.Data;
  */
 
 @Data
-public class EventInquiryResponseDto {
+public class EventFindResponseDto {
 
     private Long eventId;
     private String name;
@@ -20,10 +20,10 @@ public class EventInquiryResponseDto {
     private Boolean isWishList;
 
 
-    public EventInquiryResponseDto() {
+    public EventFindResponseDto() {
     }
 
-    public EventInquiryResponseDto(Long eventId, String name, String nickname, String id, String subject, Long currentAmount, SupportStatus state) {
+    public EventFindResponseDto(Long eventId, String name, String nickname, String id, String subject, Long currentAmount, SupportStatus state) {
         this.eventId = eventId;
         this.name = name;
         this.nickname = nickname;

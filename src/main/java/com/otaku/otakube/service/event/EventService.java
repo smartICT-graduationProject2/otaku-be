@@ -2,7 +2,7 @@ package com.otaku.otakube.service.event;
 
 import com.otaku.otakube.dto.event.request.EventFindRequestDto;
 import com.otaku.otakube.dto.event.request.EventSaveRequestDto;
-import com.otaku.otakube.dto.event.response.EventInquiryResponseDto;
+import com.otaku.otakube.dto.event.response.EventFindResponseDto;
 import com.otaku.otakube.entity.event.Event;
 import com.otaku.otakube.entity.event.Subject;
 import com.otaku.otakube.entity.event.Support;
@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -38,13 +37,13 @@ public class EventService {
      * isWishList=false -> 오늘의 이벤트, isWishList=true -> 현재 user_id의 관심 이벤트
      * subject=백현 -> 주인공 이름이 "백현"을 포함하는 이벤트들을 조회
      */
-    public List<EventInquiryResponseDto> findEvents(EventFindRequestDto request) {
+    public List<EventFindResponseDto> findEvents(EventFindRequestDto request) {
 
-        List<EventInquiryResponseDto> todayEvents = eventRepository.findTodayEvents();
+        List<EventFindResponseDto> todayEvents = eventRepository.findTodayEvents();
         List<Long> wishEventIds = wishListRepository.findWishEvents(request.getUserId());
 
         //관심 이벤트 true로 설정
-        for (EventInquiryResponseDto todayEvent : todayEvents) {
+        for (EventFindResponseDto todayEvent : todayEvents) {
             if (wishEventIds.contains(todayEvent.getEventId())) {
                 todayEvent.setIsWishList(true);
             }
@@ -52,9 +51,9 @@ public class EventService {
 
         if (!(request.getSubject() == null)) { //검색 이벤트
 
-            List<EventInquiryResponseDto> searchEvents = new ArrayList<>();
+            List<EventFindResponseDto> searchEvents = new ArrayList<>();
 
-            for (EventInquiryResponseDto todayEvent : todayEvents) {
+            for (EventFindResponseDto todayEvent : todayEvents) {
                 if (todayEvent.getSubject().contains(request.getSubject())) {
                     searchEvents.add(todayEvent);
                 }
@@ -64,9 +63,9 @@ public class EventService {
 
         } else if (request.getIsWishList()) { //관심 이벤트
 
-            List<EventInquiryResponseDto> wishEvents = new ArrayList<>();
+            List<EventFindResponseDto> wishEvents = new ArrayList<>();
 
-            for (EventInquiryResponseDto todayEvent : todayEvents) {
+            for (EventFindResponseDto todayEvent : todayEvents) {
                 if (todayEvent.getIsWishList()) {
                     wishEvents.add(todayEvent);
                 }

@@ -2,7 +2,7 @@ package com.otaku.otakube.controller;
 
 import com.otaku.otakube.dto.event.request.EventFindRequestDto;
 import com.otaku.otakube.dto.event.request.EventSaveRequestDto;
-import com.otaku.otakube.dto.event.response.EventInquiryResponseDto;
+import com.otaku.otakube.dto.event.response.EventFindResponseDto;
 import com.otaku.otakube.service.event.EventService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +21,7 @@ public class EventController {
 
     //이벤트 조회
     @GetMapping("")
-    public List<EventInquiryResponseDto> findEvents(EventFindRequestDto request) {
+    public List<EventFindResponseDto> findEvents(EventFindRequestDto request) {
         return eventService.findEvents(request);
     }
 
