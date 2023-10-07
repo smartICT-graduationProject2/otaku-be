@@ -5,10 +5,12 @@ import com.otaku.otakube.dto.event.request.EventSaveRequestDto;
 import com.otaku.otakube.dto.event.response.EventDetailFindResponseDto;
 import com.otaku.otakube.dto.event.response.EventFindResponseDto;
 import com.otaku.otakube.entity.event.Event;
+import com.otaku.otakube.entity.event.Report;
 import com.otaku.otakube.entity.event.Subject;
 import com.otaku.otakube.entity.event.Support;
 import com.otaku.otakube.entity.user.User;
 import com.otaku.otakube.repository.event.EventRepository;
+import com.otaku.otakube.repository.event.ReportRepository;
 import com.otaku.otakube.repository.event.SubjectRepository;
 import com.otaku.otakube.repository.event.SupportRepository;
 import com.otaku.otakube.repository.log.WishListRepository;
@@ -32,6 +34,7 @@ public class EventService {
     private final SubjectRepository subjectRepository;
     private final SupportRepository supportRepository;
     private final UserRepository userRepository;
+    private final ReportRepository reportRepository;
 
     /**
      * 이벤트 조회
@@ -139,5 +142,16 @@ public class EventService {
         return new EventDetailFindResponseDto(featuredImage, category, createdAt, name, xNickname,
                 xId, subject, currentAmount, targetAmount, description, address, accountHolder,
                 accountAddress, isPublic, openedDate, closedDate);
+    }
+
+    /**
+     * 이벤트 신고
+     */
+    @Transactional
+    public void reportEvent(Long eventId) {
+
+        Event event = eventRepository.findById(eventId).get();
+
+        reportRepository.save(new Report(event));
     }
 }

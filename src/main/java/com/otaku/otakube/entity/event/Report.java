@@ -7,8 +7,6 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-
 import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
@@ -27,4 +25,16 @@ public class Report extends BaseTimeEntity {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "event_id")
     private Event event;
+
+    public Report(Event event) {
+        this.event = event;
+    }
+
+    //report의 status 변경
+    public void changeStatus(Boolean isApproved) {
+        if (isApproved)
+            this.status = ApprovalStatus.APPROVED;
+        else
+            this.status = ApprovalStatus.RECEPTION;
+    }
 }

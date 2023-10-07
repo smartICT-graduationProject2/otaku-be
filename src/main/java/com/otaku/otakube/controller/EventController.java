@@ -2,7 +2,6 @@ package com.otaku.otakube.controller;
 
 import com.otaku.otakube.dto.event.request.EventFindRequestDto;
 import com.otaku.otakube.dto.event.request.EventSaveRequestDto;
-import com.otaku.otakube.dto.event.response.EventDetailFindResponseDto;
 import com.otaku.otakube.dto.event.response.EventFindResponseDto;
 import com.otaku.otakube.service.event.EventService;
 import lombok.RequiredArgsConstructor;
@@ -30,8 +29,14 @@ public class EventController {
     }
 
     //이벤트 상세 조회
-    @GetMapping("/{eventId}")
-    public EventDetailFindResponseDto findEventDetail(@PathVariable Long eventId) {
-        return eventService.findEventDetail(eventId);
+//    @GetMapping("/{eventId}")
+//    public EventDetailFindResponseDto findEventDetail(@PathVariable Long eventId) {
+//        return eventService.findEventDetail(eventId);
+//    }
+
+    //이벤트 신고
+    @PostMapping("/{eventId}/report")
+    public void reportEvent(@PathVariable Long eventId) {
+        eventService.reportEvent(eventId);
     }
 }
