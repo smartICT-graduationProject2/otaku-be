@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -83,8 +84,21 @@ public class EventService {
      */
     public void saveEvent(EventSaveRequestDto request) {
 
-        Subject subject = new Subject(request.getCategory(), request.getSubject());
-        subjectRepository.save(subject);
+        //해당 카테고리가 이미 있는지 검사
+        Long subjectId = null;
+        for (Subject subject : subjectRepository.findAll()) {
+            if (subject.getName().equals(request.getSubject())) {
+                subjectId = subject.getSubjectId();
+            }
+        }
+
+        Subject subject;
+        if (subjectId != null) { //카테고리에 이미 있다면 있는거 사용
+            subject = subjectRepository.findById(subjectId).get();
+        } else { //없다면 새롭게 카테고리 만듦
+            subject = new Subject(request.getCategory(), request.getSubject());
+            subjectRepository.save(subject);
+        }
 
         User user = userRepository.findById(request.getUserId()).get();
         Event event = new Event(request.getName(), request.getAddress(), request.getFeaturedImage(), request.getDescription(), request.getIsPublic(), request.getXNickname(), request.getXId(), request.getPerksImage(), LocalDate.parse(request.getOpenedDate()), LocalDate.parse(request.getClosedDate()), user, subject);
