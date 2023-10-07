@@ -1,6 +1,6 @@
 package com.otaku.otakube.controller;
 
-import com.otaku.otakube.service.subject.SubjectService;
+import com.otaku.otakube.service.event.SubjectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

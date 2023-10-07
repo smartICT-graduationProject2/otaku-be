@@ -1,4 +1,4 @@
-package com.otaku.otakube.service.subject;
+package com.otaku.otakube.service.event;
 
 import com.otaku.otakube.repository.event.SubjectRepository;
 import lombok.RequiredArgsConstructor;
