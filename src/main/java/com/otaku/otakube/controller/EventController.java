@@ -2,13 +2,11 @@ package com.otaku.otakube.controller;
 
 import com.otaku.otakube.dto.event.request.EventFindRequestDto;
 import com.otaku.otakube.dto.event.request.EventSaveRequestDto;
+import com.otaku.otakube.dto.event.response.EventDetailFindResponseDto;
 import com.otaku.otakube.dto.event.response.EventFindResponseDto;
 import com.otaku.otakube.service.event.EventService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,5 +27,11 @@ public class EventController {
     @PostMapping("")
     public void saveEvent(EventSaveRequestDto request) {
         eventService.saveEvent(request);
+    }
+
+    //이벤트 상세 조회
+    @GetMapping("/{eventId}")
+    public EventDetailFindResponseDto findEventDetail(@PathVariable Long eventId) {
+        return eventService.findEventDetail(eventId);
     }
 }

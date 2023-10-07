@@ -2,6 +2,7 @@ package com.otaku.otakube.service.event;
 
 import com.otaku.otakube.dto.event.request.EventFindRequestDto;
 import com.otaku.otakube.dto.event.request.EventSaveRequestDto;
+import com.otaku.otakube.dto.event.response.EventDetailFindResponseDto;
 import com.otaku.otakube.dto.event.response.EventFindResponseDto;
 import com.otaku.otakube.entity.event.Event;
 import com.otaku.otakube.entity.event.Subject;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,6 +83,7 @@ public class EventService {
     /**
      * 이벤트 등록
      */
+    @Transactional
     public void saveEvent(EventSaveRequestDto request) {
 
         //해당 카테고리가 이미 있는지 검사
@@ -105,5 +108,36 @@ public class EventService {
 
         Support support = new Support(request.getTargetAmount(), 0L, request.getAccountAddress(), request.getAccountHolder(), event);
         supportRepository.save(support);
+    }
+
+    /**
+     * 이벤트 상세 조회
+     */
+    public EventDetailFindResponseDto findEventDetail(Long eventId) {
+
+        Event event = eventRepository.findById(eventId).get();
+        Subject subjectTable = event.getSubject();
+        Support support = event.getSupport();
+
+        String featuredImage = event.getFeaturedImage();
+        String category = subjectTable.getCategory();
+        LocalDateTime createdAt = event.getCreatedAt();
+        String name = event.getName();
+        String xNickname = event.getXNickname();
+        String xId = event.getXId();
+        String subject = subjectTable.getName();
+        Long currentAmount = support.getCurrentAmount();
+        Long targetAmount = support.getTargetAmount();
+        String description = event.getDescription();
+        String address = event.getAddress();
+        String accountHolder = support.getAccountHolder();
+        String accountAddress = support.getAccountAddress();
+        Boolean isPublic = event.getIsPublic();
+        LocalDate openedDate = event.getOpenedDate();
+        LocalDate closedDate = event.getClosedDate();
+
+        return new EventDetailFindResponseDto(featuredImage, category, createdAt, name, xNickname,
+                xId, subject, currentAmount, targetAmount, description, address, accountHolder,
+                accountAddress, isPublic, openedDate, closedDate);
     }
 }
