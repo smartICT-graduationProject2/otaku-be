@@ -6,9 +6,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
@@ -22,9 +19,6 @@ public class Subject {
     private String category;
 
     private String name;
-
-//    @OneToMany(mappedBy = "subject")
-//    private List<Event> events = new ArrayList<>();
 
     @Builder
     public Subject(String category, String name) {

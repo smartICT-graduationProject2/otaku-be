@@ -88,7 +88,6 @@ public class Event extends BaseTimeEntity {
         this.status = EventStatus.PREPARATION;
         this.user = user;
         this.subject = subject;
-//        user.getEvents().add(this); //User의 events에 event 추가
     }
 
     public void addSupport(Support support) {
