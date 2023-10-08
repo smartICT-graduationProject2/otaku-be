@@ -2,10 +2,8 @@ package com.otaku.otakube.service.event;
 
 import com.otaku.otakube.dto.event.request.EventFindRequestDto;
 import com.otaku.otakube.dto.event.request.EventSaveRequestDto;
-import com.otaku.otakube.dto.event.response.AdmissionResponseDto;
-import com.otaku.otakube.dto.event.response.EventDetailFindResponseDto;
-import com.otaku.otakube.dto.event.response.EventFindResponseDto;
-import com.otaku.otakube.dto.event.response.HostEventsFindResponseDto;
+import com.otaku.otakube.dto.event.response.*;
+import com.otaku.otakube.entity.common.ApprovalStatus;
 import com.otaku.otakube.entity.event.Event;
 import com.otaku.otakube.entity.event.Report;
 import com.otaku.otakube.entity.event.Subject;
@@ -15,7 +13,9 @@ import com.otaku.otakube.repository.event.EventRepository;
 import com.otaku.otakube.repository.event.ReportRepository;
 import com.otaku.otakube.repository.event.SubjectRepository;
 import com.otaku.otakube.repository.event.SupportRepository;
+import com.otaku.otakube.repository.log.EventLogRepository;
 import com.otaku.otakube.repository.log.WishListRepository;
+import com.otaku.otakube.repository.user.HostInspectionRepository;
 import com.otaku.otakube.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -37,6 +37,8 @@ public class EventService {
     private final SupportRepository supportRepository;
     private final UserRepository userRepository;
     private final ReportRepository reportRepository;
+    private final EventLogRepository eventLogRepository;
+    private final HostInspectionRepository hostInspectionRepository;
 
     /**
      * 이벤트 조회
@@ -179,5 +181,24 @@ public class EventService {
      */
     public List<HostEventsFindResponseDto> findHostEvents(Long userId) {
         return eventRepository.findHostEvents(userId);
+    }
+
+    /**
+     * 마이페이지 조회
+     */
+    public MyPageResponseDto findMyPage(Long userId) {
+        User user = userRepository.findById(userId).get();
+
+        List<MyPageEventsResponseDto> myPageEvents = eventLogRepository.findMyPageEvents(userId);
+
+        List<MyPageEventsResponseDto> myPagePerks = eventLogRepository.findMyPagePerks(userId);
+
+        ApprovalStatus hostStatus = hostInspectionRepository.findHostStatus(userId);
+
+        Boolean isHost = false;
+        if (hostStatus != null && hostStatus.equals(ApprovalStatus.APPROVED))
+            isHost = true;
+
+        return new MyPageResponseDto(user.getName(), myPageEvents, myPagePerks, isHost);
     }
 }

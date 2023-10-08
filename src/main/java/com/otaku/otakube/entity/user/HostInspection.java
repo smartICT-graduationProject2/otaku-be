@@ -42,4 +42,10 @@ public class HostInspection extends BaseTimeEntity {
         this.user = user;
     }
 
+    public void changeStatus(Boolean isApproved) {
+        if (isApproved)
+            this.status = ApprovalStatus.APPROVED;
+        else
+            this.status = ApprovalStatus.RECEPTION;
+    }
 }

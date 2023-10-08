@@ -57,18 +57,19 @@ public class EventLogService {
         EventLog eventLog = eventLogRepository.findEventLog(request.getUserId(), request.getEventId());
         Event event = eventRepository.findById(request.getEventId()).get();
 
-        if (eventLog.getStatus().equals(EventLogStatus.ACTIVE)) {
-            CodeInputResponseDto response = new CodeInputResponseDto(true, event.getName(), event.getPerksImage());
-            return response;
-        }
+//        if (eventLog.getStatus().equals(EventLogStatus.ACTIVE)) {
+//            CodeInputResponseDto response = new CodeInputResponseDto(true, event.getName(), event.getPerksImage());
+//            return response;
+//        }
 
-        if (event.getCode().equals(request.getCode())) {
+        if (event.getIsPublic()) {
             eventLog.changeStatus(EventLogStatus.ACTIVE);
-            CodeInputResponseDto response = new CodeInputResponseDto(true, event.getName(), event.getPerksImage());
-            return response;
+            return new CodeInputResponseDto(true, event.getName(), event.getPerksImage());
+        } else if (event.getCode().equals(request.getCode())) {
+            eventLog.changeStatus(EventLogStatus.ACTIVE);
+            return new CodeInputResponseDto(true, event.getName(), event.getPerksImage());
         } else {
-            CodeInputResponseDto response = new CodeInputResponseDto(false, null, null);
-            return response;
+            return new CodeInputResponseDto(false, null, null);
         }
     }
 }

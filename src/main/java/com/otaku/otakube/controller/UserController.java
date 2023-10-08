@@ -2,6 +2,8 @@ package com.otaku.otakube.controller;
 
 import com.otaku.otakube.common.dto.response.BaseErrorResponseDto;
 import com.otaku.otakube.common.dto.response.BaseResponseDto;
+import com.otaku.otakube.dto.event.response.MyPageResponseDto;
+import com.otaku.otakube.service.event.EventService;
 import com.otaku.otakube.service.user.UserUpdateService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -14,10 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @Tag(name = "User", description = "유저 관련 API")
@@ -27,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Validated
 public class UserController {
     private final UserUpdateService userUpdateService;
+    private final EventService eventService;
 
     //TODO : 회원 탈퇴
     @Operation(summary = "유저 회원 탈퇴 API", description = "유저 회원 탈퇴 API입니다.")
@@ -80,4 +80,10 @@ public class UserController {
 
     //TODO : 개최자 승인
 
+
+    //마이페이지 조회
+    @GetMapping("")
+    public MyPageResponseDto findMyPage(Long userId) {
+        return eventService.findMyPage(userId);
+    }
 }
