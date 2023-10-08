@@ -9,8 +9,6 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-
 import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
@@ -40,8 +38,19 @@ public class Authentication extends BaseTimeEntity {
     @JoinColumn(name = "event_id")
     private Event event;
 
-    public Authentication(String xNickname, String xId) {
+    public Authentication(String xNickname, String xId, User user, Event event) {
         this.xNickname = xNickname;
         this.xId = xId;
+        this.user = user;
+        this.event = event;
+    }
+
+    public void changeStatus(Boolean isApproved) {
+
+        if (isApproved) {
+            this.status = ApprovalStatus.APPROVED;
+        } else {
+            this.status = ApprovalStatus.RECEPTION;
+        }
     }
 }

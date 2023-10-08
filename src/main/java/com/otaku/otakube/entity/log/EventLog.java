@@ -8,8 +8,6 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-
 import static jakarta.persistence.FetchType.LAZY;
 
 @Table(name = "event_log")
@@ -34,5 +32,14 @@ public class EventLog extends BaseTimeEntity {
     @JoinColumn(name = "event_id")
     private Event event;
 
+    public EventLog(User user, Event event) {
+        this.status = EventLogStatus.PREAUTH;
+        this.user = user;
+        this.event = event;
+    }
 
+    public void changeStatus(EventLogStatus status) {
+
+        this.status = status;
+    }
 }

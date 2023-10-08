@@ -2,17 +2,12 @@ package com.otaku.otakube.entity.log;
 
 import com.otaku.otakube.entity.common.ApprovalStatus;
 import com.otaku.otakube.entity.common.BaseTimeEntity;
-import com.otaku.otakube.entity.event.Event;
 import com.otaku.otakube.entity.event.Support;
 import com.otaku.otakube.entity.user.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import software.amazon.awssdk.services.s3.endpoints.internal.Value;
-
-import java.awt.print.Book;
-import java.time.LocalDate;
 
 import static jakarta.persistence.FetchType.LAZY;
 

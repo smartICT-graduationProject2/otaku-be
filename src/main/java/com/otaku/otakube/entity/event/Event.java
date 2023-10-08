@@ -9,7 +9,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.Random;
 
 import static jakarta.persistence.FetchType.LAZY;
 
@@ -75,10 +74,8 @@ public class Event extends BaseTimeEntity {
         this.featuredImage = featuredImage;
         this.description = description;
         this.isPublic = isPublic;
-        if (isPublic) {
-            Random random = new Random();
-            random.setSeed(System.currentTimeMillis());
-            this.code = random.nextInt(10000);
+        if (!isPublic) {
+            this.code = (int)(Math.random()*10000);
         }
         this.xNickname = xNickname;
         this.xId = xId;
