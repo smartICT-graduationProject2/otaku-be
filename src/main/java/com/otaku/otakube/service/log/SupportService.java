@@ -50,4 +50,15 @@ public class SupportService {
 
         return supportLogRepository.findSupporters(supportId);
     }
+
+    /**
+     * 이벤트 후원 처리
+     */
+    @Transactional
+    public void approveSupport(Long supportLogId, Boolean isRight) {
+
+        SupportLog supportLog = supportLogRepository.findById(supportLogId).get();
+
+        supportLog.changeStatus(isRight);
+    }
 }

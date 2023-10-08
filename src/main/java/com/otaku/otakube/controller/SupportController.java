@@ -4,10 +4,7 @@ import com.otaku.otakube.dto.event.request.EventSupportRequestDto;
 import com.otaku.otakube.dto.event.response.SupporterFindResponseDto;
 import com.otaku.otakube.service.log.SupportService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,5 +26,15 @@ public class SupportController {
     @GetMapping("")
     public List<SupporterFindResponseDto> findSupporters(Long eventId) {
         return supportService.findSupporters(eventId);
+    }
+
+    //이벤트 후원 처리
+    @PatchMapping("/{supportLogId}")
+    public void approveSupport(@PathVariable Long supportLogId, Boolean isRight) {
+        if (isRight == null || isRight) {
+            supportService.approveSupport(supportLogId, true);
+        } else {
+            supportService.approveSupport(supportLogId, false);
+        }
     }
 }

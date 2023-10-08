@@ -11,7 +11,7 @@ import java.util.List;
 public interface SupportLogRepository extends JpaRepository<SupportLog, Long> {
 
     @Query("select new com.otaku.otakube.dto.event.response.SupporterFindResponseDto" +
-            "(sp.name, sl.authUrl, sl.supportAmount)" +
+            "(sl.supportLogId, sp.name, sl.authUrl, sl.supportAmount, sl.status)" +
             " from SupportLog sl join sl.supporter sp" +
             " where sl.support.supportId = :supportId")
     List<SupporterFindResponseDto> findSupporters(@Param("supportId") Long supportId);
