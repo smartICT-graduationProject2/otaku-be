@@ -53,12 +53,16 @@ public class EventLogService {
      */
     public Boolean inputCode(CodeInputRequestDto request) {
 
+        EventLog eventLog = eventLogRepository.findEventLog(request.getUserId(), request.getEventId());
+
+        if (eventLog.getStatus().equals(EventLogStatus.ACTIVE)) {
+            return true;
+        }
+
         Event event = eventRepository.findById(request.getEventId()).get();
 
-        if (event.getCode() == null)
-            return true;
-
         if (event.getCode().equals(request.getCode())) {
+            eventLog.changeStatus(EventLogStatus.ACTIVE);
             return true;
         } else {
             return false;
