@@ -47,4 +47,10 @@ public class EventController {
     public AdmissionResponseDto findAdmission(Long eventId) {
         return eventService.findAdmission(eventId);
     }
+
+    //이벤트 특전 이미지 조회
+    @GetMapping("/{eventId}/perks_image")
+    public String findPerksImage(@PathVariable Long eventId) {
+        return eventService.findPerksImage(eventId);
+    }
 }

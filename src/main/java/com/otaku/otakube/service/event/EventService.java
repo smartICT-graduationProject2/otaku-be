@@ -165,4 +165,11 @@ public class EventService {
 
         return new AdmissionResponseDto(event.getName(), event.getCreatedAt(), event.getXNickname());
     }
+
+    /**
+     * 이벤트 특전 이미지 조회
+     */
+    public String findPerksImage(Long eventId) {
+        return eventRepository.findById(eventId).get().getPerksImage();
+    }
 }
