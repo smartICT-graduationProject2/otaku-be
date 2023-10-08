@@ -37,7 +37,10 @@ public class EventSaveRequestDto {
         this.closedDate = closedDate;
         this.address = address;
         this.perksImage = perksImage;
-        this.targetAmount = targetAmount;
+        if (targetAmount == null)
+            this.targetAmount = 0L;
+        else
+            this.targetAmount = targetAmount;
         this.accountHolder = accountHolder;
         this.accountAddress = accountAddress;
         this.description = description;

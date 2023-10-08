@@ -2,6 +2,7 @@ package com.otaku.otakube.controller;
 
 import com.otaku.otakube.dto.event.request.CodeInputRequestDto;
 import com.otaku.otakube.dto.event.request.EventEnterRequestDto;
+import com.otaku.otakube.dto.event.response.CodeInputResponseDto;
 import com.otaku.otakube.service.log.EventLogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -24,7 +25,7 @@ public class EventLogController {
 
     //입장 코드 입력
     @PatchMapping("")
-    public Boolean inputCode(CodeInputRequestDto request) {
+    public CodeInputResponseDto inputCode(CodeInputRequestDto request) {
         return eventLogService.inputCode(request);
     }
 }

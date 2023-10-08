@@ -2,6 +2,7 @@ package com.otaku.otakube.service.log;
 
 import com.otaku.otakube.dto.event.request.CodeInputRequestDto;
 import com.otaku.otakube.dto.event.request.EventEnterRequestDto;
+import com.otaku.otakube.dto.event.response.CodeInputResponseDto;
 import com.otaku.otakube.entity.event.Event;
 import com.otaku.otakube.entity.log.Authentication;
 import com.otaku.otakube.entity.log.EventLog;
@@ -51,21 +52,23 @@ public class EventLogService {
      * 입장 코드 입력
      * 입장코드가 맞으면 true 반환, 틀리다면 false 반환
      */
-    public Boolean inputCode(CodeInputRequestDto request) {
+    public CodeInputResponseDto inputCode(CodeInputRequestDto request) {
 
         EventLog eventLog = eventLogRepository.findEventLog(request.getUserId(), request.getEventId());
+        Event event = eventRepository.findById(request.getEventId()).get();
 
         if (eventLog.getStatus().equals(EventLogStatus.ACTIVE)) {
-            return true;
+            CodeInputResponseDto response = new CodeInputResponseDto(true, event.getName(), event.getPerksImage());
+            return response;
         }
-
-        Event event = eventRepository.findById(request.getEventId()).get();
 
         if (event.getCode().equals(request.getCode())) {
             eventLog.changeStatus(EventLogStatus.ACTIVE);
-            return true;
+            CodeInputResponseDto response = new CodeInputResponseDto(true, event.getName(), event.getPerksImage());
+            return response;
         } else {
-            return false;
+            CodeInputResponseDto response = new CodeInputResponseDto(false, null, null);
+            return response;
         }
     }
 }
