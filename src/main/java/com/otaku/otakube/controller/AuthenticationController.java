@@ -3,9 +3,7 @@ package com.otaku.otakube.controller;
 import com.otaku.otakube.dto.event.response.AuthenticationFindResponseDto;
 import com.otaku.otakube.service.log.AuthenticationService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,5 +18,16 @@ public class AuthenticationController {
     @GetMapping("")
     public List<AuthenticationFindResponseDto> findAuthentications(Long eventId) {
         return authenticationService.findAuthentication(eventId);
+    }
+
+    //개최자의 참여자 처리
+    @PatchMapping("/{authenticationId}")
+    public void approveAuthentication(@PathVariable Long authenticationId, Boolean isRight) {
+
+        if (isRight == null || isRight) {
+            authenticationService.approveAuthentication(authenticationId, true);
+        } else {
+            authenticationService.approveAuthentication(authenticationId, false);
+        }
     }
 }
