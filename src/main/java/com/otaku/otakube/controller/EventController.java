@@ -2,6 +2,7 @@ package com.otaku.otakube.controller;
 
 import com.otaku.otakube.dto.event.request.EventFindRequestDto;
 import com.otaku.otakube.dto.event.request.EventSaveRequestDto;
+import com.otaku.otakube.dto.event.response.AdmissionResponseDto;
 import com.otaku.otakube.dto.event.response.EventDetailFindResponseDto;
 import com.otaku.otakube.dto.event.response.EventFindResponseDto;
 import com.otaku.otakube.service.event.EventService;
@@ -39,5 +40,11 @@ public class EventController {
     @PostMapping("/{eventId}/report")
     public void reportEvent(@PathVariable Long eventId) {
         eventService.reportEvent(eventId);
+    }
+
+    //입장권 조회
+    @GetMapping("/admission-ticket")
+    public AdmissionResponseDto findAdmission(Long eventId) {
+        return eventService.findAdmission(eventId);
     }
 }

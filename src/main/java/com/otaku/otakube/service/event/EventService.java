@@ -2,6 +2,7 @@ package com.otaku.otakube.service.event;
 
 import com.otaku.otakube.dto.event.request.EventFindRequestDto;
 import com.otaku.otakube.dto.event.request.EventSaveRequestDto;
+import com.otaku.otakube.dto.event.response.AdmissionResponseDto;
 import com.otaku.otakube.dto.event.response.EventDetailFindResponseDto;
 import com.otaku.otakube.dto.event.response.EventFindResponseDto;
 import com.otaku.otakube.entity.event.Event;
@@ -153,5 +154,15 @@ public class EventService {
         Event event = eventRepository.findById(eventId).get();
 
         reportRepository.save(new Report(event));
+    }
+
+    /**
+     * 입장권 조회
+     */
+    public AdmissionResponseDto findAdmission(Long eventId) {
+
+        Event event = eventRepository.findById(eventId).get();
+
+        return new AdmissionResponseDto(event.getName(), event.getCreatedAt(), event.getXNickname());
     }
 }
