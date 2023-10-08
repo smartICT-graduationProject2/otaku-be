@@ -5,6 +5,7 @@ import com.otaku.otakube.dto.event.request.EventSaveRequestDto;
 import com.otaku.otakube.dto.event.response.AdmissionResponseDto;
 import com.otaku.otakube.dto.event.response.EventDetailFindResponseDto;
 import com.otaku.otakube.dto.event.response.EventFindResponseDto;
+import com.otaku.otakube.dto.event.response.HostEventsFindResponseDto;
 import com.otaku.otakube.entity.event.Event;
 import com.otaku.otakube.entity.event.Report;
 import com.otaku.otakube.entity.event.Subject;
@@ -171,5 +172,12 @@ public class EventService {
      */
     public String findPerksImage(Long eventId) {
         return eventRepository.findById(eventId).get().getPerksImage();
+    }
+
+    /**
+     * 개최자의 이벤트 전체 조회
+     */
+    public List<HostEventsFindResponseDto> findHostEvents(Long userId) {
+        return eventRepository.findHostEvents(userId);
     }
 }
