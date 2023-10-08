@@ -1,5 +1,6 @@
 package com.otaku.otakube.service.log;
 
+import com.otaku.otakube.dto.event.request.CodeInputRequestDto;
 import com.otaku.otakube.dto.event.request.EventEnterRequestDto;
 import com.otaku.otakube.entity.event.Event;
 import com.otaku.otakube.entity.log.Authentication;
@@ -24,6 +25,9 @@ public class EventLogService {
     private final EventRepository eventRepository;
     private final UserRepository userRepository;
 
+    /**
+     * 이벤트 참여하기
+     */
     public void enterEvent(EventEnterRequestDto request) {
 
         User user = userRepository.findById(request.getUserId()).get();
@@ -41,5 +45,23 @@ public class EventLogService {
 
         eventLogRepository.save(eventLog);
         authenticationRepository.save(authentication);
+    }
+
+    /**
+     * 입장 코드 입력
+     * 입장코드가 맞으면 true 반환, 틀리다면 false 반환
+     */
+    public Boolean inputCode(CodeInputRequestDto request) {
+
+        Event event = eventRepository.findById(request.getEventId()).get();
+
+        if (event.getCode() == null)
+            return true;
+
+        if (event.getCode().equals(request.getCode())) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
