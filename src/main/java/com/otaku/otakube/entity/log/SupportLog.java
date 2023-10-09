@@ -2,14 +2,13 @@ package com.otaku.otakube.entity.log;
 
 import com.otaku.otakube.entity.common.ApprovalStatus;
 import com.otaku.otakube.entity.common.BaseTimeEntity;
-import com.otaku.otakube.entity.event.Event;
+import com.otaku.otakube.entity.event.Support;
 import com.otaku.otakube.entity.user.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDate;
 
 import static jakarta.persistence.FetchType.LAZY;
 
@@ -21,28 +20,37 @@ public class SupportLog extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "support_log_id", updatable = false)
+    @Column
     private Long supportLogId;
 
-    @Column(name = "auth_url")
+    @Column
     private String authUrl;
 
-    @Column(name = "support_amount")
+    @Column
     private Long supportAmount;
 
+    @Column
     @Enumerated(EnumType.STRING)
     private ApprovalStatus status;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "supporter_id")
-    private User user;
+    @JoinColumn(name = "user_id")
+    private User supporter;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "event_id")
-    private Event event;
+    @JoinColumn(name = "support_id")
+    private Support support;
 
-    public SupportLog(String authUrl, Long supportAmount) {
+    @Builder
+    public SupportLog(String authUrl, Long supportAmount, User supporter, Support support) {
         this.authUrl = authUrl;
         this.supportAmount = supportAmount;
+        this.supporter = supporter;
+        this.support = support;
+        this.status = ApprovalStatus.RECEPTION;
+    }
+
+    public void approvedSupport(){
+        this.status = ApprovalStatus.APPROVED;
     }
 }
