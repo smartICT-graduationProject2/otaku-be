@@ -9,8 +9,11 @@ spring:
     hibernate:
       ddl-auto: update
     properties:
+      hibernate:
+        format_sql: true
       current_session_context_class: org.springframework.orm.hibernate5.SpringSessionContext
     database-platform: org.hibernate.dialect.MySQLDialect
+    show-sql: true
 
   cloud:
     aws:
