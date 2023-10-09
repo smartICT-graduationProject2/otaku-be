@@ -1,8 +1,6 @@
 package com.otaku.otakube.service.user;
 
-import com.otaku.otakube.common.exception.constants.ErrorDetails;
 import com.otaku.otakube.common.exception.custom.CustomException;
-import com.otaku.otakube.common.exception.custom.user.UserException;
 import com.otaku.otakube.common.security.jwt.JwtProvider;
 import com.otaku.otakube.dto.user.request.UserLoginRequestDto;
 import com.otaku.otakube.dto.user.response.TokenResponseDto;
@@ -17,16 +15,16 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserCreateService {
 
-    private final UserFindService userFindService;
+    private final UserReadService userReadService;
     private final UserRepository userRepository;
     private final JwtProvider jwtProvider;
 
     public TokenResponseDto loginUser(UserLoginRequestDto requestDto) {
 
-        User createdUser = null;
+        User createdUser;
         try{
-            createdUser = userFindService.findUserByEmail(requestDto.email());
-        }catch (UserException e){
+            createdUser = userReadService.findUserByEmail(requestDto.email());
+        }catch (CustomException e){
             createdUser = userRepository.save(requestDto.toEntity());
         }
 

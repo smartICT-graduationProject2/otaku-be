@@ -2,36 +2,34 @@ package com.otaku.otakube.controller;
 
 import com.otaku.otakube.common.dto.response.BaseErrorResponseDto;
 import com.otaku.otakube.common.dto.response.BaseResponseDto;
-import com.otaku.otakube.dto.user.request.UserLoginRequestDto;
-import com.otaku.otakube.dto.user.request.UserRefreshTokensRequestDto;
-import com.otaku.otakube.dto.user.response.TokenResponseDto;
-import com.otaku.otakube.service.user.UserCreateService;
-import com.otaku.otakube.service.user.UserReadService;
+import com.otaku.otakube.service.user.UserUpdateService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
-@Tag(name = "Auth", description = "인증 관련 API")
+@Tag(name = "User", description = "유저 관련 API")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/users")
 @Validated
-public class AuthController {
-    private final UserCreateService userCreateService;
-    private final UserReadService userReadService;
+public class UserController {
+    private final UserUpdateService userUpdateService;
 
-    @Operation(summary = "유저 회원가입 및 로그인 API", description = "유저 회원가입 및 로그인 API입니다.")
+    //TODO : 회원 탈퇴
+    @Operation(summary = "유저 회원 탈퇴 API", description = "유저 회원 탈퇴 API입니다.")
     @ApiResponses(
             value = {
                     @ApiResponse(
@@ -46,17 +44,19 @@ public class AuthController {
                     )
             }
     )
-    @PostMapping("/users/sign-up")
-    public ResponseEntity<BaseResponseDto<TokenResponseDto>> loginUser(@Valid @RequestBody final UserLoginRequestDto requestDto) {
-        return BaseResponseDto.created(userCreateService.loginUser(requestDto));
+    @PostMapping("/withdrawal")
+    public ResponseEntity<BaseResponseDto<String>> withdrawUser() {
+        userUpdateService.withdrawUser();
+        return BaseResponseDto.success("success");
     }
 
-    @Operation(summary = "유저 토큰 재발급 API", description = "유저 토큰 재발급 API입니다.")
+    //TODO : 개최자 인증
+    @Operation(summary = "유저 회원 탈퇴 API", description = "유저 회원 탈퇴 API입니다.")
     @ApiResponses(
             value = {
                     @ApiResponse(
                             responseCode = "201",
-                            description = "토큰 재발급 성공",
+                            description = "로그인 성공",
                             useReturnTypeSchema = true
                     ),
                     @ApiResponse(
@@ -66,9 +66,18 @@ public class AuthController {
                     )
             }
     )
-    @PostMapping("/refresh-token")
-    public ResponseEntity<BaseResponseDto<TokenResponseDto>> refreshTokens(@Valid @RequestBody final UserRefreshTokensRequestDto requestDto) {
-        return BaseResponseDto.created(userReadService.refreshTokens(requestDto));
+    @PostMapping(value = "/host-application", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<BaseResponseDto<String>> uploadFile(
+            @Parameter(
+                    description = "multipart/form-data 형식의 단일 이미지를 입력 값으로 받습니다. 이때 key 값은 image입니다.",
+                    content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE)
+            )
+            @RequestPart("image") final MultipartFile multipartFile
+    ) {
+        userUpdateService.applyHost(multipartFile);
+        return BaseResponseDto.success("success");
     }
+
+    //TODO : 개최자 승인
 
 }
