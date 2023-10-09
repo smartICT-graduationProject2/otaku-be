@@ -19,16 +19,13 @@ public class Subject {
     @Column(name = "subject_id", updatable = false)
     private Long subjectId;
 
+    @Column
     private String category;
 
+    @Column
     private String name;
 
-//    @OneToMany(mappedBy = "subject")
-//    private List<Event> events = new ArrayList<>();
+    @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Event> events = new ArrayList<>();
 
-    @Builder
-    public Subject(String category, String name) {
-        this.category = category;
-        this.name = name;
-    }
 }
