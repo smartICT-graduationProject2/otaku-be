@@ -6,42 +6,52 @@ import com.otaku.otakube.entity.event.Event;
 import com.otaku.otakube.entity.user.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDate;
 
 import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
+@Table(name = "t_approval")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Authentication extends BaseTimeEntity {
+public class Approval extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "authentication_id", updatable = false)
-    private Long authenticationId;
+    @Column
+    private Long approvalId;
 
-    @Column(name = "x_nickname")
+    @Column
     private String xNickname;
 
-    @Column(name = "x_id")
+    @Column
     private String xId;
 
+    @Column
     @Enumerated(EnumType.STRING)
     private ApprovalStatus status;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
-    private User user;
+    private User applicant;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "event_id")
     private Event event;
 
-    public Authentication(String xNickname, String xId) {
+    @Builder
+    public Approval(String xNickname, String xId, User applicant, Event event) {
         this.xNickname = xNickname;
         this.xId = xId;
+        this.applicant = applicant;
+        this.event = event;
+        this.status = ApprovalStatus.RECEPTION;
+    }
+
+    //TODO: 이벤트 로그도 함께 변경
+    public void approvedApplicant(){
+        this.status = ApprovalStatus.RECEPTION;
     }
 }
