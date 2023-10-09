@@ -5,14 +5,13 @@ import com.otaku.otakube.entity.event.Event;
 import com.otaku.otakube.entity.user.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-
 import static jakarta.persistence.FetchType.LAZY;
 
-@Table(name = "wish_list")
+@Table(name = "t_wish_list")
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -20,9 +19,10 @@ public class WishList extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "wish_list_id", updatable = false)
+    @Column
     private Long wishListId;
 
+    @Column
     @Enumerated(EnumType.STRING)
     private WishListStatus status;
 
@@ -34,9 +34,14 @@ public class WishList extends BaseTimeEntity {
     @JoinColumn(name = "event_id")
     private Event event;
 
+    @Builder
     public WishList(User user, Event event) {
         this.status = WishListStatus.ACTIVE;
         this.user = user;
         this.event = event;
+    }
+
+    public void disableWishList(){
+        this.status = WishListStatus.DELETED;
     }
 }
