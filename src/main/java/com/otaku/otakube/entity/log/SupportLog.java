@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 
 import static jakarta.persistence.FetchType.LAZY;
 
-@Table(name = "support_log")
+@Table(name = "t_support_log")
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
