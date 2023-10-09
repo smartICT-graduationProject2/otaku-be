@@ -1,11 +1,17 @@
 package com.otaku.otakube.entity.user;
 
 import com.otaku.otakube.entity.common.BaseTimeEntity;
+import com.otaku.otakube.entity.event.Event;
+import com.otaku.otakube.entity.log.EventLog;
+import com.otaku.otakube.entity.log.SupportLog;
+import com.otaku.otakube.entity.log.WishList;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -33,6 +39,19 @@ public class User extends BaseTimeEntity {
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private HostInspection hostInspection;
+
+    @OneToMany(mappedBy = "supporter", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<SupportLog> supporterLogs;
+
+    @OneToMany(mappedBy = "hostUser", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Event> eventList;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<WishList> wishList;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<EventLog> eventLogs;
+
 
     public void withdrawUser(){
         this.status = ActiveStatus.DELETED;
