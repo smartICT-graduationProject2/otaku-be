@@ -81,7 +81,7 @@ public class QEvent extends EntityPathBase<Event> {
 
     public QEvent(Class<? extends Event> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.hostUser = inits.isInitialized("hostUser") ? new com.otaku.otakube.entity.user.QUser(forProperty("hostUser"), inits.get("hostUser")) : null;
+        this.hostUser = inits.isInitialized("hostUser") ? new com.otaku.otakube.entity.user.QUser(forProperty("hostUser")) : null;
         this.subject = inits.isInitialized("subject") ? new QSubject(forProperty("subject")) : null;
         this.support = inits.isInitialized("support") ? new QSupport(forProperty("support"), inits.get("support")) : null;
     }
