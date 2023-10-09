@@ -11,6 +11,7 @@ import java.util.List;
 
 import static jakarta.persistence.FetchType.LAZY;
 
+@Table(name = "t_support")
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
