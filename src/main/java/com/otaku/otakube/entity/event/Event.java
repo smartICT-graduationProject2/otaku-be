@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Random;
 
 import static jakarta.persistence.FetchType.LAZY;
 
