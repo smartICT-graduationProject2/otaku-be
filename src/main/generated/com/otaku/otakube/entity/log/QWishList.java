@@ -54,7 +54,7 @@ public class QWishList extends EntityPathBase<WishList> {
     public QWishList(Class<? extends WishList> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.event = inits.isInitialized("event") ? new com.otaku.otakube.entity.event.QEvent(forProperty("event"), inits.get("event")) : null;
-        this.user = inits.isInitialized("user") ? new com.otaku.otakube.entity.user.QUser(forProperty("user"), inits.get("user")) : null;
+        this.user = inits.isInitialized("user") ? new com.otaku.otakube.entity.user.QUser(forProperty("user")) : null;
     }
 
 }

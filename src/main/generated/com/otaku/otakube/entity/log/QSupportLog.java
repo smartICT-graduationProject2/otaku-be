@@ -58,7 +58,7 @@ public class QSupportLog extends EntityPathBase<SupportLog> {
     public QSupportLog(Class<? extends SupportLog> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.support = inits.isInitialized("support") ? new com.otaku.otakube.entity.event.QSupport(forProperty("support"), inits.get("support")) : null;
-        this.supporter = inits.isInitialized("supporter") ? new com.otaku.otakube.entity.user.QUser(forProperty("supporter"), inits.get("supporter")) : null;
+        this.supporter = inits.isInitialized("supporter") ? new com.otaku.otakube.entity.user.QUser(forProperty("supporter")) : null;
     }
 
 }

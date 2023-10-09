@@ -57,7 +57,7 @@ public class QApproval extends EntityPathBase<Approval> {
 
     public QApproval(Class<? extends Approval> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.applicant = inits.isInitialized("applicant") ? new com.otaku.otakube.entity.user.QUser(forProperty("applicant"), inits.get("applicant")) : null;
+        this.applicant = inits.isInitialized("applicant") ? new com.otaku.otakube.entity.user.QUser(forProperty("applicant")) : null;
         this.event = inits.isInitialized("event") ? new com.otaku.otakube.entity.event.QEvent(forProperty("event"), inits.get("event")) : null;
     }
 
