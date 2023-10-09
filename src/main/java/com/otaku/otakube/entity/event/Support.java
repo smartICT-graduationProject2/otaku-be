@@ -49,4 +49,8 @@ public class Support {
         this.event = event;
         event.addSupport(this);
     }
+
+    public void addCurrentAmount(Long amount) {
+        this.currentAmount += amount;
+    }
 }

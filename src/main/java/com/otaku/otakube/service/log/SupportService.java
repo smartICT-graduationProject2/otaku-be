@@ -7,6 +7,7 @@ import com.otaku.otakube.entity.event.Support;
 import com.otaku.otakube.entity.log.SupportLog;
 import com.otaku.otakube.entity.user.User;
 import com.otaku.otakube.repository.event.EventRepository;
+import com.otaku.otakube.repository.event.SupportRepository;
 import com.otaku.otakube.repository.log.SupportLogRepository;
 import com.otaku.otakube.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ public class SupportService {
     private final SupportLogRepository supportLogRepository;
     private final UserRepository userRepository;
     private final EventRepository eventRepository;
+    private final SupportRepository supportRepository;
 
     /**
      * 이벤트 후원
@@ -55,10 +57,14 @@ public class SupportService {
      * 이벤트 후원 처리
      */
     @Transactional
-    public void approveSupport(Long supportLogId, Boolean isRight) {
+    public void approveSupport(Long supportLogId, Boolean isApproved) {
 
         SupportLog supportLog = supportLogRepository.findById(supportLogId).get();
 
-        supportLog.changeStatus(isRight);
+        if (isApproved) {
+            supportLog.getSupport().addCurrentAmount(supportLog.getSupportAmount());
+        }
+
+        supportLog.changeStatus(isApproved);
     }
 }

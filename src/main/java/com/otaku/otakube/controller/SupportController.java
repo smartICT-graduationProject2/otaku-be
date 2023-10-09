@@ -30,8 +30,8 @@ public class SupportController {
 
     //이벤트 후원 처리
     @PatchMapping("/{supportLogId}")
-    public void approveSupport(@PathVariable Long supportLogId, Boolean isRight) {
-        if (isRight == null || isRight) {
+    public void approveSupport(@PathVariable Long supportLogId, Boolean isApproved) {
+        if (isApproved == null || isApproved) {
             supportService.approveSupport(supportLogId, true);
         } else {
             supportService.approveSupport(supportLogId, false);
