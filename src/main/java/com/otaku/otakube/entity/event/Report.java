@@ -4,6 +4,7 @@ import com.otaku.otakube.entity.common.ApprovalStatus;
 import com.otaku.otakube.entity.common.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -18,7 +19,7 @@ public class Report extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "report_id", updatable = false)
+    @Column
     private Long reportId;
 
     @Enumerated(EnumType.STRING)
@@ -27,4 +28,14 @@ public class Report extends BaseTimeEntity {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "event_id")
     private Event event;
+
+    @Builder
+    public Report(Event event) {
+        this.event = event;
+        this.status = ApprovalStatus.RECEPTION;
+    }
+
+    public void approvedReport(){
+        this.status = ApprovalStatus.APPROVED;
+    }
 }
