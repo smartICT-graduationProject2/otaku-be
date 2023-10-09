@@ -12,6 +12,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
+@Table(name = "t_subject")
 public class Subject {
 
     @Id
@@ -28,4 +29,9 @@ public class Subject {
     @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Event> events = new ArrayList<>();
 
+    @Builder
+    public Subject(String category, String name) {
+        this.category = category;
+        this.name = name;
+    }
 }
