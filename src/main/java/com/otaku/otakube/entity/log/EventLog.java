@@ -5,14 +5,13 @@ import com.otaku.otakube.entity.event.Event;
 import com.otaku.otakube.entity.user.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-
 import static jakarta.persistence.FetchType.LAZY;
 
-@Table(name = "event_log")
+@Table(name = "t_event_log")
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -20,9 +19,10 @@ public class EventLog extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "event_log_id", updatable = false)
+    @Column
     private Long eventLogId;
 
+    @Column
     @Enumerated(EnumType.STRING)
     private EventLogStatus status;
 
@@ -33,4 +33,19 @@ public class EventLog extends BaseTimeEntity {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "event_id")
     private Event event;
+
+    @Builder
+    public EventLog(EventLogStatus status, User user, Event event) {
+        this.status = status;
+        this.user = user;
+        this.event = event;
+    }
+
+    public void approvedEvent(){
+        this.status = EventLogStatus.EXPECTED;
+    }
+
+    public void participateEvent(){
+        this.status = EventLogStatus.ACTIVE;
+    }
 }
