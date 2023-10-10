@@ -1,8 +1,11 @@
 package com.otaku.otakube.service.user;
 
 import com.otaku.otakube.common.exception.constants.ErrorDetails;
+import com.otaku.otakube.common.exception.custom.CustomException;
 import com.otaku.otakube.common.exception.custom.user.UserException;
 import com.otaku.otakube.common.security.jwt.JwtProvider;
+import com.otaku.otakube.dto.admin.request.adminLoginRequestDto;
+import com.otaku.otakube.dto.user.request.UserLoginRequestDto;
 import com.otaku.otakube.dto.user.request.UserRefreshTokensRequestDto;
 import com.otaku.otakube.dto.user.response.TokenResponseDto;
 import com.otaku.otakube.entity.user.ActiveStatus;
@@ -42,5 +45,15 @@ public class UserReadService {
                 .refreshToken(newRefreshToken)
                 .build();
 
+    }
+
+    public String loginAdmin(adminLoginRequestDto dto) {
+
+        if (!dto.password().equals("pwdadmin")) throw UserException.of(ErrorDetails.UNAUTHORIZED);
+
+        User admin = userRepository.findById(1L)
+                .orElseThrow( () -> CustomException.of(ErrorDetails.INTERNAL_SERVER_ERROR));
+
+        return jwtProvider.generateAccessToken(admin.getUserId(), admin.getRole());
     }
 }
