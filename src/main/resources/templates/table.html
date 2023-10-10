@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>테이블 정보</title>
+</head>
+<body>
+<h1>테이블 정보</h1>
+<table>
+    <thead>
+    <tr>
+        <th>데이터</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tbody>
+    <tr th:each="data : ${tableData}">
+        <td th:text="${data}"></td>
+    </tr>
+    </tbody>
+    </tbody>
+</table>
+</body>
+
+
+<script>
+    const tableDataContainer = document.getElementById('table-data');
+    const accessToken = localStorage.getItem('accessToken');
+
+    // JWT 토큰이 있는지 확인
+    if (accessToken) {
+        const headers = {
+            'Authorization': `Bearer ${accessToken}`
+        };
+
+        // 데이터를 받아오는 API 요청
+        fetch('/admins/table-data', {
+            method: 'GET',
+            headers: headers
+        })
+        .then(response => response.text())
+        .then(data => {
+            // 데이터를 화면에 삽입
+            tableDataContainer.innerHTML = data;
+        })
+        .catch(error => {
+            console.error('Failed to fetch data:', error);
+        });
+    } else {
+        console.error('Access token not found.');
+    }
+</script>
+</html>
