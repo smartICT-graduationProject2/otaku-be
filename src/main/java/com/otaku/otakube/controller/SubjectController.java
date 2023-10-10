@@ -48,11 +48,11 @@ public class SubjectController {
             }
     )
     @GetMapping
-    public BaseResponseDto<Slice<SubjectResponseDto>> getSubjectList(
+    public ResponseEntity<BaseResponseDto<Slice<SubjectResponseDto>>> getSubjectList(
             @ParameterObject @PageableDefault(size = 12) Pageable pageable,
             @Parameter @RequestParam String category,
             @Parameter @RequestParam(required = true) Long lastSubjectId) {
-        return BaseResponseDto.of(subjectReadService.getSubjectListByCategory(pageable, category, lastSubjectId));
+        return BaseResponseDto.success(subjectReadService.getSubjectListByCategory(pageable, category, lastSubjectId));
     }
 
     @Operation(summary = "이벤트 대상 등록 API", description = "이벤트 대상 등록 API입니다.")
