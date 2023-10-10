@@ -1,7 +1,18 @@
+buildscript {
+    ext {
+        queryDslVersion = "5.0.0"
+    }
+}
+
+
 plugins {
     id 'java'
     id 'org.springframework.boot' version '3.1.4'
     id 'io.spring.dependency-management' version '1.1.3'
+}
+
+jar {
+    enabled = false
 }
 
 group = 'com.otaku'
@@ -27,6 +38,12 @@ dependencies {
 
     //jpa
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    //querydsl
+    implementation "com.querydsl:querydsl-jpa:5.0.0:jakarta"
+    annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jakarta"
+    annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+    annotationProcessor "jakarta.persistence:jakarta.persistence-api"
 
     //database
     runtimeOnly 'com.h2database:h2'
@@ -67,4 +84,18 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+def querydslDir = "$buildDir/generated/querydsl"
+
+sourceSets {
+    main.java.srcDirs += [querydslDir]
+}
+
+tasks.withType(JavaCompile) {
+    options.annotationProcessorGeneratedSourcesDirectory = file(querydslDir)
+}
+
+clean.doLast {
+    file(querydslDir).deleteDir()
 }

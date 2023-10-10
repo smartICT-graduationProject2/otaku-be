@@ -1,6 +1,8 @@
 package com.otaku.otakube.entity.event;
 
 import com.otaku.otakube.entity.common.BaseTimeEntity;
+import com.otaku.otakube.entity.log.Approval;
+import com.otaku.otakube.entity.log.EventLog;
 import com.otaku.otakube.entity.user.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -9,12 +11,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import static jakarta.persistence.FetchType.LAZY;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
+@Table(name = "t_event")
 public class Event extends BaseTimeEntity {
 
     @Id
@@ -49,12 +53,12 @@ public class Event extends BaseTimeEntity {
     @Column
     private String perksImage;
 
-    @Column
     @Temporal(TemporalType.DATE)
+    @Column
     private LocalDate openedDate;
 
-    @Column
     @Temporal(TemporalType.DATE)
+    @Column
     private LocalDate closedDate;
 
     @Column
@@ -63,30 +67,37 @@ public class Event extends BaseTimeEntity {
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
-    private User user;
+    private User hostUser;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "subject_id")
     private Subject subject;
 
-    @OneToOne(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(mappedBy = "event", fetch = LAZY)
     private Support support;
 
-    //TODO: 모금 여부에 따라서 status 와 support 지정하기
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<EventLog> eventLogs;
+
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Approval> approvalList;
+
     @Builder
-    public Event(String name, String address, String featuredImage, String description, Boolean isPublic,
-                 String xNickname, String xId, String perksImage, LocalDate openedDate, LocalDate closedDate, User user, Subject subject) {
-        this.name = name;
-        this.address = address;
-        this.featuredImage = featuredImage;
-        this.description = description;
-        this.isPublic = isPublic;
-        this.xNickname = xNickname;
-        this.xId = xId;
-        this.perksImage = perksImage;
-        this.openedDate = openedDate;
-        this.closedDate = closedDate;
-        this.user = user;
-        this.subject = subject;
+    public Event(String name, String address, Integer code, String featuredImage, String description, Boolean isPublic, String xNickname, String xId, String perksImage, LocalDate openedDate, LocalDate closedDate, EventStatus status, User hostUser, Subject subject, Support support) {
+        this.name = name; //이벤트 이름
+        this.address = address; //이벤트 장소
+        this.code = code; //입장코드
+        this.featuredImage = featuredImage; //대표 이미지
+        this.description = description; //설명
+        this.isPublic = isPublic; //공개여부
+        this.xNickname = xNickname; //트위터 닉네임
+        this.xId = xId; //트위터 아이디
+        this.perksImage = perksImage; //특전 이미지
+        this.openedDate = openedDate; //시작
+        this.closedDate = closedDate; //마감
+        this.status = status; //상태
+        this.hostUser = hostUser; //호스트
+        this.subject = subject; //대상
+        this.support = support; //서포트, 없으면 널값
     }
 }

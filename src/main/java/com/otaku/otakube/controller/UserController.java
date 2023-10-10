@@ -33,8 +33,8 @@ public class UserController {
     @ApiResponses(
             value = {
                     @ApiResponse(
-                            responseCode = "201",
-                            description = "로그인 성공",
+                            responseCode = "200",
+                            description = "회원 탈퇴 성공",
                             useReturnTypeSchema = true
                     ),
                     @ApiResponse(
@@ -51,12 +51,12 @@ public class UserController {
     }
 
     //TODO : 개최자 인증
-    @Operation(summary = "유저 회원 탈퇴 API", description = "유저 회원 탈퇴 API입니다.")
+    @Operation(summary = "유저 개최자 인증 API", description = "유저 개최자 인증 API입니다.")
     @ApiResponses(
             value = {
                     @ApiResponse(
-                            responseCode = "201",
-                            description = "로그인 성공",
+                            responseCode = "200",
+                            description = "개최자 인증 요청 성공",
                             useReturnTypeSchema = true
                     ),
                     @ApiResponse(

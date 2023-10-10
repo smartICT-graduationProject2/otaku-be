@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
@@ -20,7 +22,6 @@ public class Report extends BaseTimeEntity {
     @Column
     private Long reportId;
 
-    @Column
     @Enumerated(EnumType.STRING)
     private ApprovalStatus status;
 
@@ -31,5 +32,10 @@ public class Report extends BaseTimeEntity {
     @Builder
     public Report(Event event) {
         this.event = event;
+        this.status = ApprovalStatus.RECEPTION;
+    }
+
+    public void approvedReport(){
+        this.status = ApprovalStatus.APPROVED;
     }
 }

@@ -40,4 +40,12 @@ public class EventLog extends BaseTimeEntity {
         this.user = user;
         this.event = event;
     }
+
+    public void approvedEvent(){
+        this.status = EventLogStatus.EXPECTED;
+    }
+
+    public void participateEvent(){
+        this.status = EventLogStatus.ACTIVE;
+    }
 }
