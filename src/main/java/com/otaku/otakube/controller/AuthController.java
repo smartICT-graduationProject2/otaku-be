@@ -2,7 +2,7 @@ package com.otaku.otakube.controller;
 
 import com.otaku.otakube.common.dto.response.BaseErrorResponseDto;
 import com.otaku.otakube.common.dto.response.BaseResponseDto;
-import com.otaku.otakube.dto.admin.request.adminLoginRequestDto;
+import com.otaku.otakube.dto.admin.request.AdminLoginRequestDto;
 import com.otaku.otakube.dto.user.request.UserLoginRequestDto;
 import com.otaku.otakube.dto.user.request.UserRefreshTokensRequestDto;
 import com.otaku.otakube.dto.user.response.TokenResponseDto;
@@ -73,7 +73,7 @@ public class AuthController {
     }
 
     @PostMapping("/admin/login")
-    public ResponseEntity<String> loginAdmin(adminLoginRequestDto dto) {
+    public ResponseEntity<String> loginAdmin(AdminLoginRequestDto dto) {
         return ResponseEntity.ok(userReadService.loginAdmin(dto));
     }
 

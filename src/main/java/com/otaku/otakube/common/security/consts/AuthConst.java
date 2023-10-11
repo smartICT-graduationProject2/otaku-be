@@ -16,7 +16,8 @@ public interface AuthConst {
             "/health-check",
             "/favicon.ico",
             "/auth/**",
-            "/admins/**",
+            "/admins/view/**",
+            "/css/**",
             "/"
     };
 }
