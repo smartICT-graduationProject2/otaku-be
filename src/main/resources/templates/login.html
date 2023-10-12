@@ -49,8 +49,9 @@
 
       // 다른 URL로 이동
       fetch('/auth/admin/login', {
-        method: 'GET',
-        headers: headers
+        method: 'POST',
+        headers: headers,
+        body: formData
       })
       .then(response => {
         if (response.ok) {
