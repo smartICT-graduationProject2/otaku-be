@@ -31,9 +31,11 @@ public class EventService {
 
     /**
      * 이벤트 등록
+     *
+     * @return
      */
     @Transactional
-    public void saveEvent(EventSaveRequestDto request, MultipartFile perksImage, MultipartFile featuredImage) {
+    public Long saveEvent(EventSaveRequestDto request, MultipartFile perksImage, MultipartFile featuredImage) {
         String perksImageUrl = awsS3Service.uploadFile(perksImage);
         String featuredImageUrl = awsS3Service.uploadFile(featuredImage);
 
@@ -58,6 +60,6 @@ public class EventService {
         event.saveImageInformation(perksImageUrl, featuredImageUrl);
 
         //이벤트 저장
-        eventRepository.save(event);
+        return eventRepository.save(event).getEventId();
     }
 }
