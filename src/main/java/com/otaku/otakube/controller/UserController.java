@@ -4,6 +4,7 @@ import com.otaku.otakube.common.dto.response.BaseErrorResponseDto;
 import com.otaku.otakube.common.dto.response.BaseResponseDto;
 import com.otaku.otakube.dto.host_inspection.response.HostInspectionResponseDto;
 import com.otaku.otakube.service.user.HostInspectionReadService;
+import com.otaku.otakube.service.user.HostInspectionUpdateService;
 import com.otaku.otakube.service.user.UserUpdateService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -30,6 +31,7 @@ import java.util.List;
 public class UserController {
     private final UserUpdateService userUpdateService;
     private final HostInspectionReadService hostInspectionReadService;
+    private final HostInspectionUpdateService hostInspectionUpdateService;
 
     @Operation(summary = "유저 회원 탈퇴 API", description = "유저 회원 탈퇴 API입니다.")
     @ApiResponses(
@@ -81,15 +83,17 @@ public class UserController {
     }
 
 
-    @GetMapping("inspection-list")
+    @GetMapping("/inspection-list")
     public ResponseEntity<BaseResponseDto<List<HostInspectionResponseDto>>> getHostInspectionTable() {
         return BaseResponseDto.success(hostInspectionReadService.getHostInspectionTable());
     }
 
-    @GetMapping("inspection")
+    @GetMapping("/inspection/{hostInspectionId}")
     public ResponseEntity<BaseResponseDto<String>> updateHostInspection(
-            @ParameterObject @RequestParam(name = "inspectionResult") final Boolean inspectionResult
+            @ParameterObject @RequestParam(name = "inspectionResult") final Boolean inspectionResult,
+            @PathVariable final Long hostInspectionId
     ) {
+        hostInspectionUpdateService.updateHostInspection(hostInspectionId, inspectionResult);
         return BaseResponseDto.success("success!!");
     }
 }

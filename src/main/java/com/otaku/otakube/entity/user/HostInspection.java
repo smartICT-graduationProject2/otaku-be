@@ -35,6 +35,20 @@ public class HostInspection extends BaseTimeEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
+    public void approveHostInspection(){
+        this.status = ApprovalStatus.APPROVED;
+    }
+
+    public void dismissHostInspection(){
+        this.status = ApprovalStatus.DISMISS;
+        this.user = null;
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        modifiedDate = LocalDateTime.now();
+    }
+
     @Builder
     public HostInspection(String authUrl, User user) {
         this.authUrl = authUrl;
