@@ -43,14 +43,12 @@ public enum ErrorDetails implements ResponseDetails {
      */
     INTERNAL_SERVER_ERROR(4000, HttpStatus.INTERNAL_SERVER_ERROR.value(), "서버 오류가 발생했습니다."),
     JSON_PROCESSING_ERROR(4001, HttpStatus.INTERNAL_SERVER_ERROR.value(), "JSON 처리 중 오류가 발생했습니다."),
-    INVALID_ROLE_ERROR(4002, HttpStatus.INTERNAL_SERVER_ERROR.value(), "유효하지 않은 ROLE입니다. 사용자, 기관, 관리자 여부를 다시 확인해주세요."),
-    IPFS_CONNECTION_ERROR(4003, HttpStatus.INTERNAL_SERVER_ERROR.value(), "IPFS 연결 중 오류가 발생했습니다."),
 
     /**
      * 4000: 사용자 오류
      */
-    USER_NOT_FOUND(5000, HttpStatus.BAD_REQUEST.value(), "존재하지 않는 사용자입니다.")
-
+    USER_NOT_FOUND(5000, HttpStatus.BAD_REQUEST.value(), "존재하지 않는 사용자입니다."),
+    HOST_INSPECTION_NOT_FOUND(5100, HttpStatus.BAD_REQUEST.value(), "존재하지 않는 호스트 승인 요청입니다.")
     ;
 
 
