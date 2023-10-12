@@ -3,7 +3,7 @@ package com.otaku.otakube.controller;
 import com.otaku.otakube.common.dto.response.BaseErrorResponseDto;
 import com.otaku.otakube.common.dto.response.BaseResponseDto;
 import com.otaku.otakube.dto.host_inspection.response.HostInspectionResponseDto;
-import com.otaku.otakube.repository.user.HostInspectionRepository;
+import com.otaku.otakube.service.user.HostInspectionReadService;
 import com.otaku.otakube.service.user.UserUpdateService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -28,7 +29,7 @@ import java.util.List;
 @Validated
 public class UserController {
     private final UserUpdateService userUpdateService;
-    private final HostInspectionRepository hostInspectionRepository;
+    private final HostInspectionReadService hostInspectionReadService;
 
     @Operation(summary = "유저 회원 탈퇴 API", description = "유저 회원 탈퇴 API입니다.")
     @ApiResponses(
@@ -82,6 +83,13 @@ public class UserController {
 
     @GetMapping("inspection-list")
     public ResponseEntity<BaseResponseDto<List<HostInspectionResponseDto>>> getHostInspectionTable() {
-        return BaseResponseDto.success(hostInspectionRepository.findHostInspectionList());
+        return BaseResponseDto.success(hostInspectionReadService.getHostInspectionTable());
+    }
+
+    @GetMapping("inspection")
+    public ResponseEntity<BaseResponseDto<String>> updateHostInspection(
+            @ParameterObject @RequestParam(name = "inspectionResult") final Boolean inspectionResult
+    ) {
+        return BaseResponseDto.success("success!!");
     }
 }
