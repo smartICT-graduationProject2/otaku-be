@@ -45,10 +45,17 @@ public enum ErrorDetails implements ResponseDetails {
     JSON_PROCESSING_ERROR(4001, HttpStatus.INTERNAL_SERVER_ERROR.value(), "JSON 처리 중 오류가 발생했습니다."),
 
     /**
-     * 4000: 사용자 오류
+     * 5000: 사용자 오류
      */
     USER_NOT_FOUND(5000, HttpStatus.BAD_REQUEST.value(), "존재하지 않는 사용자입니다."),
-    HOST_INSPECTION_NOT_FOUND(5100, HttpStatus.BAD_REQUEST.value(), "존재하지 않는 호스트 승인 요청입니다.")
+    HOST_INSPECTION_NOT_FOUND(5100, HttpStatus.BAD_REQUEST.value(), "존재하지 않는 호스트 승인 요청입니다."),
+
+
+    /**
+     * 6000: event, subject 오류
+     */
+    EVENT_NOT_FOUND(6000, HttpStatus.BAD_REQUEST.value(), "존재하지 않는 이벤트입니다."),
+    SUBJECT_NOT_FOUND(6100, HttpStatus.BAD_REQUEST.value(), "존재하지 않는 이벤트 대상입니다."),
     ;
 
 
