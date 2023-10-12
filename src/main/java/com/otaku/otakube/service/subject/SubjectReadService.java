@@ -7,6 +7,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class SubjectReadService {
@@ -14,5 +16,9 @@ public class SubjectReadService {
 
     public Slice<SubjectResponseDto> getSubjectListByCategory(Pageable pageable, String category, Long lastSubjectId){
         return subjectRepository.findSubjectList(pageable, category, lastSubjectId);
+    }
+
+    public List<SubjectResponseDto> getAllSubjectList(){
+        return subjectRepository.findAllSubjectList();
     }
 }

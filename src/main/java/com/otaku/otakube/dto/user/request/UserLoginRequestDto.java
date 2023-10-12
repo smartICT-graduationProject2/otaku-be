@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
+@Schema(name = "유저 로그인 및 회원가입 dto")
 public record UserLoginRequestDto(
         @Schema(description = "이름", defaultValue = "홍길동", example = "홍길동")
         @NotBlank(message = "이름은 필수 입력값입니다.")
