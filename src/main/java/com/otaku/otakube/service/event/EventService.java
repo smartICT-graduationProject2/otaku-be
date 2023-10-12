@@ -1,72 +1,63 @@
 package com.otaku.otakube.service.event;
 
-import com.otaku.otakube.dto.event.request.EventInquiryRequestDto;
-import com.otaku.otakube.dto.event.response.EventInquiryResponseDto;
+import com.otaku.otakube.common.exception.constants.ErrorDetails;
+import com.otaku.otakube.common.exception.custom.event.EventException;
+import com.otaku.otakube.common.security.helper.AuthInfoHelper;
+import com.otaku.otakube.dto.event.request.EventSaveRequestDto;
 import com.otaku.otakube.entity.event.Event;
+import com.otaku.otakube.entity.event.Subject;
+import com.otaku.otakube.entity.user.User;
 import com.otaku.otakube.repository.event.EventRepository;
-import com.otaku.otakube.repository.log.WishListRepository;
+import com.otaku.otakube.repository.subject.SubjectRepository;
+import com.otaku.otakube.service.common.AwsS3Service;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Random;
 
+@Slf4j
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class EventService {
 
     private final EventRepository eventRepository;
-    private final WishListRepository wishListRepository;
+    private final SubjectRepository subjectRepository;
+    private final AwsS3Service awsS3Service;
+    private final AuthInfoHelper authInfoHelper;
 
     /**
-     * 이벤트 조회
-     * isWishList=false면 오늘의 이벤트, true면 memberId의 관심 이벤트
-     * subject=백현 -> 주인공 이름이 "백현"을 포함하는 이벤트들을 조회
+     * 이벤트 등록
      */
-    public List<EventInquiryResponseDto> findEvents(EventInquiryRequestDto request) {
+    @Transactional
+    public void saveEvent(EventSaveRequestDto request, MultipartFile perksImage, MultipartFile featuredImage) {
+        String perksImageUrl = awsS3Service.uploadFile(perksImage);
+        String featuredImageUrl = awsS3Service.uploadFile(featuredImage);
 
-        List<EventInquiryResponseDto> todayEvents = eventRepository.findTodayEvents();
-        List<Long> wishEventIds = wishListRepository.findWishEvents(request.getUserId());
+        log.info("perksImageUrl: {}",perksImageUrl);
+        log.info("featuredImageUrl: {}",featuredImageUrl);
 
-        //관심 이벤트 true로 설정
-        for (EventInquiryResponseDto todayEvent : todayEvents) {
-            if (wishEventIds.contains(todayEvent.getEventId())) {
-                todayEvent.setIsWishList(true);
-            }
-        }
+        User hostUser = authInfoHelper.getUser();
 
-        if (!(request.getSubject() == null)) { //검색 이벤트
+        //임시 입장코드 생성
+        Random random = new Random(System.currentTimeMillis());
+        final int codeMin = 1000; // 4자리 숫자의 최소값
+        final int codeMax = 9999; // 4자리 숫자의 최대값
+        Integer code = random.nextInt(codeMax - codeMin + 1) + codeMin;
 
-            List<EventInquiryResponseDto> searchEvents = new ArrayList<>();
+        //대상 찾기
+        Subject eventSubject = subjectRepository.findById(request.subjectId())
+                .orElseThrow( () -> EventException.of(ErrorDetails.SUBJECT_NOT_FOUND));
 
-            for (EventInquiryResponseDto todayEvent : todayEvents) {
-                if (todayEvent.getSubject().contains(request.getSubject())) {
-                    searchEvents.add(todayEvent);
-                }
-            }
+        //이벤트 생성
+        Event event = request.toEntity();
+        event.saveAdditionalEventInformation(hostUser,eventSubject, code);
+        event.saveImageInformation(perksImageUrl, featuredImageUrl);
 
-            return searchEvents;
-
-        } else if (request.getIsWishList()) { //관심 이벤트
-
-            List<EventInquiryResponseDto> wishEvents = new ArrayList<>();
-
-            for (EventInquiryResponseDto todayEvent : todayEvents) {
-                if (todayEvent.getIsWishList()) {
-                    wishEvents.add(todayEvent);
-                }
-            }
-
-            return wishEvents;
-        }
-
-        return todayEvents; //오늘의 이벤트
-
-    }
-
-    public void saveEvent(Event event) {
-
+        //이벤트 저장
+        eventRepository.save(event);
     }
 }
