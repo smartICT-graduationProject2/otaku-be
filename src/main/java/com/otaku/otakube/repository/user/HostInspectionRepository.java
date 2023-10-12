@@ -9,13 +9,9 @@ import java.util.List;
 
 public interface HostInspectionRepository extends JpaRepository<HostInspection, Long> {
     @Query(value = """
-            select new com.otaku.otakube.dto.host_inspection.response.HostInspectionResponseDto
-            (h.hostInspectionId,
-            h.authUrl,
-            h.user.userId,
-            h.user.name)
-            from HostInspection h
-            where h.status = "RECEPTION"
-            """)
+        select new com.otaku.otakube.dto.host_inspection.response.HostInspectionResponseDto(h.hostInspectionId, h.authUrl)
+        from HostInspection h
+        where h.status = 'RECEPTION'
+    """)
     List<HostInspectionResponseDto> findHostInspectionList();
 }

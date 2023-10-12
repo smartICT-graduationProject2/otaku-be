@@ -3,7 +3,6 @@ package com.otaku.otakube.controller;
 import com.otaku.otakube.common.dto.response.BaseErrorResponseDto;
 import com.otaku.otakube.common.dto.response.BaseResponseDto;
 import com.otaku.otakube.dto.host_inspection.response.HostInspectionResponseDto;
-import com.otaku.otakube.entity.user.HostInspection;
 import com.otaku.otakube.repository.user.HostInspectionRepository;
 import com.otaku.otakube.service.user.UserUpdateService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -81,13 +80,8 @@ public class UserController {
     }
 
 
-    @GetMapping("/user-list")
-    public ResponseEntity<BaseResponseDto<HostInspectionResponseDto>> getHostInspectionTable() {
-        return BaseResponseDto.success(HostInspectionResponseDto.builder()
-                .hostInspectionId(1L)
-                .userId(1L)
-                .userName("하....")
-                .authUrl("https://i.namu.wiki/i/8q7LosAJkQnKS6kZdN_UiK_LXlakcmoUq77wnwJTBXVSPLwKmIjYZrYOfgt6Y9X7DuD9VgVvuq6WUQX14Cbynw.webp")
-                .build());
+    @GetMapping("inspection-list")
+    public ResponseEntity<BaseResponseDto<List<HostInspectionResponseDto>>> getHostInspectionTable() {
+        return BaseResponseDto.success(hostInspectionRepository.findHostInspectionList());
     }
 }

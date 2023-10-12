@@ -5,8 +5,6 @@ import lombok.Builder;
 @Builder
 public record HostInspectionResponseDto (
         Long hostInspectionId,
-        String authUrl,
-        Long userId,
-        String userName
+        String authUrl
 ){
 }
