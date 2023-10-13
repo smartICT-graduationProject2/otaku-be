@@ -34,8 +34,8 @@ public class JwtProvider {
     private Key key;
 
     //TODO: 개발용으로 시간을 길게 설정하였으니 나중에 수정 필요
-    public static long ACCESS_TOKEN_PERIOD = 1000 * 60 * 60 * 24; //24시간
-    public static long REFRESH_TOKEN_PERIOD = 1000 * 60 * 60 * 24 * 3; //3일
+    public static final long ACCESS_TOKEN_PERIOD = 1000 * 60 * 60 * 24; //24시간
+    public static final long REFRESH_TOKEN_PERIOD = 1000 * 60 * 60 * 24 * 3; //3일
 
     @PostConstruct
     protected void init() {
@@ -55,7 +55,7 @@ public class JwtProvider {
         return buildToken(now)
                 .setExpiration(new Date(now.getTime() + ACCESS_TOKEN_PERIOD))
                 .setSubject(String.valueOf(id))
-                .claim(AuthConst.ROLE, role.toString())
+                .claim(AuthConst.ROLE.getValue(), role.toString())
                 .compact();
     }
 
@@ -109,7 +109,7 @@ public class JwtProvider {
                 .getBody();
 
         final Long id = Long.parseLong(claims.getSubject());
-        final String role = claims.get(AuthConst.ROLE, String.class);
+        final String role = claims.get(AuthConst.ROLE.getValue(), String.class);
 
         return AuthInfo.builder()
                 .id(id)
