@@ -4,6 +4,7 @@ import com.otaku.otakube.common.exception.constants.ErrorDetails;
 import com.otaku.otakube.common.exception.custom.event.EventException;
 import com.otaku.otakube.common.security.helper.AuthInfoHelper;
 import com.otaku.otakube.dto.event.request.EventSaveRequestDto;
+import com.otaku.otakube.dto.event.response.EventSaveResponseDto;
 import com.otaku.otakube.entity.event.Event;
 import com.otaku.otakube.entity.event.Subject;
 import com.otaku.otakube.entity.user.User;
@@ -35,12 +36,9 @@ public class EventService {
      * @return
      */
     @Transactional
-    public Long saveEvent(EventSaveRequestDto request, MultipartFile perksImage, MultipartFile featuredImage) {
+    public EventSaveResponseDto saveEvent(EventSaveRequestDto request, MultipartFile perksImage, MultipartFile featuredImage) {
         String perksImageUrl = awsS3Service.uploadFile(perksImage);
         String featuredImageUrl = awsS3Service.uploadFile(featuredImage);
-
-        log.info("perksImageUrl: {}",perksImageUrl);
-        log.info("featuredImageUrl: {}",featuredImageUrl);
 
         User hostUser = authInfoHelper.getUser();
 
@@ -60,6 +58,10 @@ public class EventService {
         event.saveImageInformation(perksImageUrl, featuredImageUrl);
 
         //이벤트 저장
-        return eventRepository.save(event).getEventId();
+        Event createdEvent = eventRepository.save(event);
+
+        return EventSaveResponseDto.builder()
+                .eventId(createdEvent.getEventId())
+                .build();
     }
 }

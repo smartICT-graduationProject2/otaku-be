@@ -3,6 +3,7 @@ package com.otaku.otakube.controller;
 import com.otaku.otakube.common.dto.response.BaseErrorResponseDto;
 import com.otaku.otakube.common.dto.response.BaseResponseDto;
 import com.otaku.otakube.dto.event.request.EventSaveRequestDto;
+import com.otaku.otakube.dto.event.response.EventSaveResponseDto;
 import com.otaku.otakube.service.event.EventService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -43,7 +44,7 @@ public class EventController {
     )
     //이벤트 등록
     @PostMapping(value = "", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<BaseResponseDto<Long>> saveEvent(
+    public ResponseEntity<BaseResponseDto<EventSaveResponseDto>> saveEvent(
             @Parameter(description = "multipart/form-data 형식의 단일 이미지를 입력 값으로 받습니다.")
             @RequestPart("featuredImageFile") final MultipartFile featuredImageFile,
             @Parameter(description = "multipart/form-data 형식의 단일 이미지를 입력 값으로 받습니다.")
