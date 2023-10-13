@@ -44,15 +44,9 @@ public class EventController {
     //이벤트 등록
     @PostMapping(value = "", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<BaseResponseDto<Long>> saveEvent(
-            @Parameter(
-                    description = "multipart/form-data 형식의 단일 이미지를 입력 값으로 받습니다.",
-                    content = @Content(mediaType = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-            )
+            @Parameter(description = "multipart/form-data 형식의 단일 이미지를 입력 값으로 받습니다.")
             @RequestPart("featuredImageFile") final MultipartFile featuredImageFile,
-            @Parameter(
-                    description = "multipart/form-data 형식의 단일 이미지를 입력 값으로 받습니다.",
-                    content = @Content(mediaType = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-            )
+            @Parameter(description = "multipart/form-data 형식의 단일 이미지를 입력 값으로 받습니다.")
             @RequestPart("perksImageFile") final MultipartFile perksImageFile,
             @RequestPart EventSaveRequestDto request) {
         return BaseResponseDto.created(eventService.saveEvent(request, perksImageFile, featuredImageFile));
