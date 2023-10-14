@@ -54,6 +54,10 @@ public class User extends BaseTimeEntity {
         this.status = ActiveStatus.DELETED;
     }
 
+    public void updateHostRole(){
+        this.role = Role.ROLE_HOST;
+    }
+
     @Builder
     public User(String name, String email) {
         this.name = name;

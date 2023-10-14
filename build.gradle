@@ -77,6 +77,10 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
+    //thymeleaf
+    implementation 'javax.xml.bind:jaxb-api:2.3.1'
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+
     //test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'

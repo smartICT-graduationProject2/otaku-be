@@ -2,6 +2,9 @@ package com.otaku.otakube.controller;
 
 import com.otaku.otakube.common.dto.response.BaseErrorResponseDto;
 import com.otaku.otakube.common.dto.response.BaseResponseDto;
+import com.otaku.otakube.dto.host_inspection.response.HostInspectionResponseDto;
+import com.otaku.otakube.service.user.HostInspectionReadService;
+import com.otaku.otakube.service.user.HostInspectionUpdateService;
 import com.otaku.otakube.service.user.UserUpdateService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -11,14 +14,14 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @Tag(name = "User", description = "유저 관련 API")
 @RequiredArgsConstructor
@@ -27,8 +30,9 @@ import org.springframework.web.multipart.MultipartFile;
 @Validated
 public class UserController {
     private final UserUpdateService userUpdateService;
+    private final HostInspectionReadService hostInspectionReadService;
+    private final HostInspectionUpdateService hostInspectionUpdateService;
 
-    //TODO : 회원 탈퇴
     @Operation(summary = "유저 회원 탈퇴 API", description = "유저 회원 탈퇴 API입니다.")
     @ApiResponses(
             value = {
@@ -50,7 +54,7 @@ public class UserController {
         return BaseResponseDto.success("success");
     }
 
-    //TODO : 개최자 인증
+
     @Operation(summary = "유저 개최자 인증 API", description = "유저 개최자 인증 API입니다.")
     @ApiResponses(
             value = {
@@ -78,6 +82,18 @@ public class UserController {
         return BaseResponseDto.success("success");
     }
 
-    //TODO : 개최자 승인
 
+    @GetMapping("/inspection-list")
+    public ResponseEntity<BaseResponseDto<List<HostInspectionResponseDto>>> getHostInspectionTable() {
+        return BaseResponseDto.success(hostInspectionReadService.getHostInspectionTable());
+    }
+
+    @GetMapping("/inspection/{hostInspectionId}")
+    public ResponseEntity<BaseResponseDto<String>> updateHostInspection(
+            @ParameterObject @RequestParam(name = "inspectionResult") final Boolean inspectionResult,
+            @PathVariable final Long hostInspectionId
+    ) {
+        hostInspectionUpdateService.updateHostInspection(hostInspectionId, inspectionResult);
+        return BaseResponseDto.success("success!!");
+    }
 }

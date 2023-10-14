@@ -1,14 +1,23 @@
 package com.otaku.otakube.common.security.consts;
 
-public interface AuthConst {
-    String AUTHORIZATION_HEADER = "Authorization";
-    String BEARER_PREFIX = "Bearer ";
-    String ROLE = "ROLE";
-    String ROLE_USER = "ROLE_USER";
-    String ROLE_ADMIN = "ROLE_ADMIN";
-    String ROLE_HOST = "ROLE_HOST";
+import lombok.Getter;
 
-    String[] AUTH_WHITELIST = {
+@Getter
+public enum AuthConst {
+    AUTHORIZATION_HEADER("Authorization"),
+    BEARER_PREFIX("Bearer "),
+    ROLE("ROLE"),
+    ROLE_USER("ROLE_USER"),
+    ROLE_ADMIN("ROLE_ADMIN"),
+    ROLE_HOST("ROLE_HOST");
+
+    private final String value;
+
+    AuthConst(String value) {
+        this.value = value;
+    }
+
+    public static final String[] AUTH_WHITELIST = {
             "/swagger-resources/**",
             "/swagger-ui/**",
             "/v3/api-docs/**",
@@ -16,6 +25,8 @@ public interface AuthConst {
             "/health-check",
             "/favicon.ico",
             "/auth/**",
+            "/admins/view/**",
             "/"
     };
 }
+

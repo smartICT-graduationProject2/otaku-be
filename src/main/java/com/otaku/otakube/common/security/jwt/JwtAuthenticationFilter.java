@@ -29,7 +29,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, @NonNull HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        final String token = extractTokenFromHeader(request.getHeader(AuthConst.AUTHORIZATION_HEADER));
+        final String token = extractTokenFromHeader(request.getHeader(AuthConst.AUTHORIZATION_HEADER.getValue()));
         jwtProvider.validateToken(token);
         setAuthentication(token);
 
@@ -43,8 +43,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private String extractTokenFromHeader(final String header) {
         return Optional.ofNullable(header)
-                .filter(headerValue -> headerValue.startsWith(AuthConst.BEARER_PREFIX))
-                .map(headerValue -> headerValue.replace(AuthConst.BEARER_PREFIX, ""))
+                .filter(headerValue -> headerValue.startsWith(AuthConst.BEARER_PREFIX.getValue()))
+                .map(headerValue -> headerValue.replace(AuthConst.BEARER_PREFIX.getValue(), ""))
                 .orElseThrow(() -> CustomException.of(ErrorDetails.INVALID_TOKEN));
     }
 
