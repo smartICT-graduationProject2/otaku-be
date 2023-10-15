@@ -23,7 +23,7 @@ import java.util.Random;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class EventService {
+public class EventCreateService {
 
     private final EventRepository eventRepository;
     private final SubjectRepository subjectRepository;
@@ -33,7 +33,6 @@ public class EventService {
     /**
      * 이벤트 등록
      *
-     * @return
      */
     @Transactional
     public EventSaveResponseDto saveEvent(EventSaveRequestDto request, MultipartFile perksImage, MultipartFile featuredImage) {
