@@ -46,10 +46,11 @@ public class Support {
 
     @Builder
     public Support(Long targetAmount, String accountAddress, String accountHolder, Event event) {
-        this.targetAmount = targetAmount;
-        this.accountAddress = accountAddress;
-        this.accountHolder = accountHolder;
-        this.event = event;
+        this.targetAmount = targetAmount; //목표 금액
+        this.accountAddress = accountAddress; //계좌
+        this.accountHolder = accountHolder; //예금주
+        this.event = event; //이벤트
         this.status = SupportStatus.IN_PROGRESS;
+        this.currentAmount = 0L;
     }
 }

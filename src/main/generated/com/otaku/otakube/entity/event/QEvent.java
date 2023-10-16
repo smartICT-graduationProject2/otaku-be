@@ -39,8 +39,6 @@ public class QEvent extends EntityPathBase<Event> {
 
     public final NumberPath<Long> eventId = createNumber("eventId", Long.class);
 
-    public final ListPath<com.otaku.otakube.entity.log.EventLog, com.otaku.otakube.entity.log.QEventLog> eventLogs = this.<com.otaku.otakube.entity.log.EventLog, com.otaku.otakube.entity.log.QEventLog>createList("eventLogs", com.otaku.otakube.entity.log.EventLog.class, com.otaku.otakube.entity.log.QEventLog.class, PathInits.DIRECT2);
-
     public final StringPath featuredImage = createString("featuredImage");
 
     public final com.otaku.otakube.entity.user.QUser hostUser;
