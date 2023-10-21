@@ -55,6 +55,7 @@ public class SupportCreateService {
                 SupportLog.builder()
                         .support(targetSupport)
                         .supporter(supporter)
+                        .accountHolder(dto.accountHolder())
                         .supportAmount(dto.supportAmount())
                         .authUrl(authUrl)
                         .build()

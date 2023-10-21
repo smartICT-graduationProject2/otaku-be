@@ -37,7 +37,7 @@ public class Support {
     @Enumerated(EnumType.STRING)
     private SupportStatus status;
 
-    @OneToMany(mappedBy = "support", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "support", cascade = CascadeType.ALL, orphanRemoval = true, fetch = LAZY)
     private List<SupportLog> supportLogs;
 
     @OneToOne(fetch = LAZY)
