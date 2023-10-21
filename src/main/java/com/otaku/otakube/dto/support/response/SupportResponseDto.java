@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
-@Schema(description = "이벤트 후원 등록 DTO 입니다.")
+@Schema(name = "이벤트 후원 로그 조회 응답값 dto")
 public record SupportResponseDto(
         @Schema(description = "후원 로그 아이디")
         @Positive

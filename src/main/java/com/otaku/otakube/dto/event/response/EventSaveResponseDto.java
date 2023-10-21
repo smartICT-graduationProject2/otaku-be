@@ -8,6 +8,7 @@ import lombok.Builder;
 /**
  * 이벤트 등록 Response
  */
+@Schema(name = "이벤트 등록 응답 dto")
 @Builder
 public record EventSaveResponseDto(
         @Schema(description = "이벤트 대상 아이디")
