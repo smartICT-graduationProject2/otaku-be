@@ -3,7 +3,9 @@ package com.otaku.otakube.service.support;
 import com.otaku.otakube.common.exception.constants.ErrorDetails;
 import com.otaku.otakube.common.exception.custom.event.EventException;
 import com.otaku.otakube.dto.support.response.SupportResponseDto;
+import com.otaku.otakube.entity.common.ApprovalStatus;
 import com.otaku.otakube.entity.event.Support;
+import com.otaku.otakube.entity.log.SupportLog;
 import com.otaku.otakube.repository.support.SupportLogRepository;
 import com.otaku.otakube.repository.support.SupportRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +28,12 @@ public class SupportReadService {
     public Support findSupportById(final Long supportId) {
         return supportRepository.findById(supportId)
                 .orElseThrow( () -> EventException.of(ErrorDetails.SUPPORT_NOT_FOUND));
+    }
+
+    @Transactional(readOnly = true)
+    public SupportLog findSupportLogById(final Long supportLogId) {
+        return supportLogRepository.findSupportLogsBySupportLogIdAndStatusLike(supportLogId, ApprovalStatus.RECEPTION)
+                .orElseThrow( () -> EventException.of(ErrorDetails.SUPPORT_LOG_NOT_FOUND));
     }
 
     @Transactional(readOnly = true)

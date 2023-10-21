@@ -7,6 +7,7 @@ import com.otaku.otakube.dto.support.request.SupportRequestDto;
 import com.otaku.otakube.dto.support.response.SupportResponseDto;
 import com.otaku.otakube.service.support.SupportCreateService;
 import com.otaku.otakube.service.support.SupportReadService;
+import com.otaku.otakube.service.support.SupportUpdateService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -34,6 +35,7 @@ public class SupportController {
 
     private final SupportCreateService supportCreateService;
     private final SupportReadService supportReadService;
+    private final SupportUpdateService supportUpdateService;
 
     @Operation(summary = "후원 등록 API", description = "후원 등록 API입니다.")
     @ApiResponses(
@@ -104,5 +106,25 @@ public class SupportController {
         return BaseResponseDto.success(supportReadService.findSupportLogListById(supportId));
     }
 
-
+    @Operation(summary = "이벤트 후원 승인 API", description = "이벤트 후원 승인 API입니다.")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "조회 성공",
+                            useReturnTypeSchema = true
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "요청 실패",
+                            content = @Content(schema = @Schema(implementation = BaseErrorResponseDto.class))
+                    )
+            }
+    )
+    @PostMapping(value = "/approval")
+    public ResponseEntity<BaseResponseDto> approveSupportLog(
+            @Parameter @RequestParam final Long supportLogId) {
+        supportUpdateService.approveSupportLog(supportLogId);
+        return BaseResponseDto.success();
+    }
 }
