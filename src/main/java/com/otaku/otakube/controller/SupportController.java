@@ -48,14 +48,14 @@ public class SupportController {
             }
     )
     @PostMapping
-    public ResponseEntity<BaseResponseDto> registerSubject(
+    public ResponseEntity<BaseResponseDto> registerSupport(
             @ParameterObject @RequestParam(name = "eventId") final Long eventId,
             @Valid @RequestBody final SupportRequestDto dto) {
         supportCreateService.createSupport(dto, eventId);
         return BaseResponseDto.created();
     }
 
-    @Operation(summary = "이벤트 등록 API", description = "이벤트 등록 API입니다.")
+    @Operation(summary = "사용자의 후원 등록 API", description = "사용자가 특정 이벤트에 대해 후원하는 API입니다.")
     @ApiResponses(
             value = {
                     @ApiResponse(
@@ -80,5 +80,31 @@ public class SupportController {
         supportCreateService.createSupportLog(request, supportId, supportImageFile);
         return BaseResponseDto.created("success!");
     }
+
+//    @Operation(summary = "이벤트 등록 API", description = "이벤트 등록 API입니다.")
+//    @ApiResponses(
+//            value = {
+//                    @ApiResponse(
+//                            responseCode = "200",
+//                            description = "등록 성공",
+//                            useReturnTypeSchema = true
+//                    ),
+//                    @ApiResponse(
+//                            responseCode = "400",
+//                            description = "요청 실패",
+//                            content = @Content(schema = @Schema(implementation = BaseErrorResponseDto.class))
+//                    )
+//            }
+//    )
+//    //이벤트 등록
+//    @PostMapping(value = "/{supportId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+//    public ResponseEntity<BaseResponseDto<String>> applySupport(
+//            @Parameter(description = "multipart/form-data 형식의 단일 이미지를 입력 값으로 받습니다.")
+//            @RequestPart("perksImageFile") final MultipartFile supportImageFile,
+//            @RequestPart SupportRegisterRequestDto request,
+//            @ParameterObject @PathVariable(name = "supportId") final Long supportId) {
+//        supportCreateService.createSupportLog(request, supportId, supportImageFile);
+//        return BaseResponseDto.created("success!");
+//    }
 
 }
