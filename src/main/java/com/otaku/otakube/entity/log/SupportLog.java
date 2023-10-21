@@ -27,6 +27,9 @@ public class SupportLog extends BaseTimeEntity {
     private String authUrl;
 
     @Column
+    private String accountHolder;
+
+    @Column
     private Long supportAmount;
 
     @Column
@@ -42,8 +45,9 @@ public class SupportLog extends BaseTimeEntity {
     private Support support;
 
     @Builder
-    public SupportLog(String authUrl, Long supportAmount, User supporter, Support support) {
+    public SupportLog(String authUrl, String accountHolder, Long supportAmount, User supporter, Support support) {
         this.authUrl = authUrl;
+        this.accountHolder = accountHolder;
         this.supportAmount = supportAmount;
         this.supporter = supporter;
         this.support = support;

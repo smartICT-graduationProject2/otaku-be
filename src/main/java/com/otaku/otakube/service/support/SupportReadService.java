@@ -2,29 +2,40 @@ package com.otaku.otakube.service.support;
 
 import com.otaku.otakube.common.exception.constants.ErrorDetails;
 import com.otaku.otakube.common.exception.custom.event.EventException;
-import com.otaku.otakube.entity.event.Event;
+import com.otaku.otakube.dto.support.response.SupportResponseDto;
 import com.otaku.otakube.entity.event.Support;
-import com.otaku.otakube.repository.event.EventRepository;
+import com.otaku.otakube.repository.support.SupportLogRepository;
 import com.otaku.otakube.repository.support.SupportRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Slf4j
 @Service
-@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class SupportReadService {
 
     private final SupportRepository supportRepository;
+    private final SupportLogRepository supportLogRepository;
 
-    /**
-     * 이벤트 등록
-     */
-    @Transactional
+
+    @Transactional(readOnly = true)
     public Support findSupportById(final Long supportId) {
         return supportRepository.findById(supportId)
                 .orElseThrow( () -> EventException.of(ErrorDetails.SUPPORT_NOT_FOUND));
+    }
+
+    @Transactional(readOnly = true)
+    public List<SupportResponseDto> findSupportLogListById(final Long supportId){
+        try {
+            return supportLogRepository.findSupportLogsBySupport(supportId);
+        }catch (Exception e){
+            log.error(e.getMessage());
+            log.error(String.valueOf(e.getCause()));
+            throw EventException.of(ErrorDetails.SUPPORT_LOG_FIND_ERROR);
+        }
     }
 }
