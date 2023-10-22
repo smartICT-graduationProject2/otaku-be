@@ -32,6 +32,8 @@ public class SupportCreateService {
     public void createSupport(final SupportRequestDto dto, final Long eventId){
         Event eventForCreatedSupport = eventReadService.findEventById(eventId);
 
+        eventForCreatedSupport.registerEventSupport();
+
         if (eventForCreatedSupport.getSupport() != null)
             throw CustomException.of(ErrorDetails.SUPPORT_ALREADY_EXISTS);
 

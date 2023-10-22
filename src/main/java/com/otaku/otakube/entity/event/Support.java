@@ -53,4 +53,13 @@ public class Support {
         this.status = SupportStatus.IN_PROGRESS;
         this.currentAmount = 0L;
     }
+
+    public boolean updateCurrentAmount(final Long amount){
+        this.currentAmount += amount;
+        if (currentAmount >= targetAmount){
+            this.status = SupportStatus.COMPLETE;
+            return true;
+        }
+        return false;
+    }
 }
