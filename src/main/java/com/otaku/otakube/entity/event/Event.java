@@ -75,7 +75,7 @@ public class Event extends BaseTimeEntity {
     @OneToOne(mappedBy = "event", fetch = LAZY)
     private Support support;
 
-    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true, fetch = LAZY)
     private List<Approval> approvalList;
 
 
