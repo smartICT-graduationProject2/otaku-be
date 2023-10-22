@@ -4,7 +4,7 @@ import com.otaku.otakube.common.dto.response.BaseErrorResponseDto;
 import com.otaku.otakube.common.dto.response.BaseResponseDto;
 import com.otaku.otakube.dto.event.request.EventSaveRequestDto;
 import com.otaku.otakube.dto.event.response.EventSaveResponseDto;
-import com.otaku.otakube.service.event.EventService;
+import com.otaku.otakube.service.event.EventCreateService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -25,7 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/events")
 public class EventController {
 
-    private final EventService eventService;
+    private final EventCreateService eventCreateService;
 
     @Operation(summary = "이벤트 등록 API", description = "이벤트 등록 API입니다.")
     @ApiResponses(
@@ -50,6 +50,6 @@ public class EventController {
             @Parameter(description = "multipart/form-data 형식의 단일 이미지를 입력 값으로 받습니다.")
             @RequestPart("perksImageFile") final MultipartFile perksImageFile,
             @RequestPart EventSaveRequestDto request) {
-        return BaseResponseDto.created(eventService.saveEvent(request, perksImageFile, featuredImageFile));
+        return BaseResponseDto.created(eventCreateService.saveEvent(request, perksImageFile, featuredImageFile));
     }
 }

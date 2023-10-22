@@ -11,6 +11,7 @@ import java.time.LocalDate;
 /**
  * 이벤트 등록 Request
  */
+@Schema(name = "이벤트 등록 요청 dto")
 public record EventSaveRequestDto(
 
         @Schema(description = "이벤트 공개 여부")

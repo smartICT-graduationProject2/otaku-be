@@ -24,6 +24,8 @@ public class QSupportLog extends EntityPathBase<SupportLog> {
 
     public final com.otaku.otakube.entity.common.QBaseTimeEntity _super = new com.otaku.otakube.entity.common.QBaseTimeEntity(this);
 
+    public final StringPath accountHolder = createString("accountHolder");
+
     public final StringPath authUrl = createString("authUrl");
 
     //inherited
