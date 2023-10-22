@@ -95,6 +95,14 @@ public class Event extends BaseTimeEntity {
         this.featuredImage = featuredImageUrl;
     }
 
+    public void completeEventSupport(){
+        this.status = EventStatus.PREPARATION;
+    }
+
+    public void registerEventSupport(){
+        this.status = EventStatus.UNDEFINED;
+    }
+
     @Builder
     public Event(String name, String address, String description, Boolean isPublic, String xNickname, String xId, LocalDate openedDate, LocalDate closedDate) {
         this.name = name; //이벤트 이름
