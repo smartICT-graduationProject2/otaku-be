@@ -5,6 +5,7 @@ import com.otaku.otakube.common.dto.response.BaseResponseDto;
 import com.otaku.otakube.dto.event.request.EventSaveRequestDto;
 import com.otaku.otakube.dto.event.response.EventListResponseDto;
 import com.otaku.otakube.dto.event.response.EventSaveResponseDto;
+import com.otaku.otakube.dto.event.response.EventSearchResponseDto;
 import com.otaku.otakube.service.event.EventCreateService;
 import com.otaku.otakube.service.event.EventReadService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -77,5 +78,28 @@ public class EventController {
             @ParameterObject @PageableDefault(size = 12) Pageable pageable,
             @Parameter @RequestParam(name = "subjectId") final Long subjectId) {
         return BaseResponseDto.success(eventReadService.findEventListBySubjectId(pageable, subjectId));
+    }
+
+    @Operation(summary = "이벤트 조회 API", description = "이벤트 조회 API입니다.")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "조회 성공",
+                            useReturnTypeSchema = true
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "요청 실패",
+                            content = @Content(schema = @Schema(implementation = BaseErrorResponseDto.class))
+                    )
+            }
+    )
+    @GetMapping
+    public ResponseEntity<BaseResponseDto<Slice<EventSearchResponseDto>>> getEventListByConditions(
+            @ParameterObject @PageableDefault(size = 12) Pageable pageable,
+            @Parameter @RequestParam(name = "subject", required = false) final String subject,
+            @Parameter @RequestParam(name = "is-wish-list", defaultValue = "false") final boolean isWishList) {
+        return BaseResponseDto.success(eventReadService.findEventList(pageable, isWishList, subject));
     }
 }
