@@ -57,6 +57,8 @@ public class QEvent extends EntityPathBase<Event> {
 
     public final QSupport support;
 
+    public final ListPath<com.otaku.otakube.entity.log.WishList, com.otaku.otakube.entity.log.QWishList> wishLists = this.<com.otaku.otakube.entity.log.WishList, com.otaku.otakube.entity.log.QWishList>createList("wishLists", com.otaku.otakube.entity.log.WishList.class, com.otaku.otakube.entity.log.QWishList.class, PathInits.DIRECT2);
+
     public final StringPath xId = createString("xId");
 
     public final StringPath xNickname = createString("xNickname");

@@ -2,6 +2,7 @@ package com.otaku.otakube.entity.event;
 
 import com.otaku.otakube.entity.common.BaseTimeEntity;
 import com.otaku.otakube.entity.log.Approval;
+import com.otaku.otakube.entity.log.WishList;
 import com.otaku.otakube.entity.user.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -10,6 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import static jakarta.persistence.FetchType.LAZY;
@@ -76,7 +78,10 @@ public class Event extends BaseTimeEntity {
     private Support support;
 
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true, fetch = LAZY)
-    private List<Approval> approvalList;
+    private List<Approval> approvalList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true, fetch = LAZY)
+    private List<WishList> wishLists = new ArrayList<>();
 
 
     public void saveAdditionalEventInformation(final User hostUser, final Subject eventSubject, final Integer code){
