@@ -3,8 +3,7 @@ package com.otaku.otakube.service.event;
 import com.otaku.otakube.common.exception.constants.ErrorDetails;
 import com.otaku.otakube.common.exception.custom.event.EventException;
 import com.otaku.otakube.common.security.helper.AuthInfoHelper;
-import com.otaku.otakube.dto.event.response.EventListResponseDto;
-import com.otaku.otakube.dto.event.response.EventSearchResponseDto;
+import com.otaku.otakube.dto.event.response.*;
 import com.otaku.otakube.entity.event.Event;
 import com.otaku.otakube.entity.event.EventStatus;
 import com.otaku.otakube.repository.event.EventRepository;
@@ -35,6 +34,31 @@ public class EventReadService {
     @Transactional(readOnly = true)
     public Event findEventByIdAndStatus(final Long eventId) {
         return eventRepository.findByEventIdAndStatusNotIn(eventId, List.of(EventStatus.DELETED, EventStatus.CLOSED))
+                .orElseThrow(() -> EventException.of(ErrorDetails.EVENT_NOT_FOUND));
+    }
+
+    @Transactional(readOnly = true)
+    public EventDetailResponseDto findEventDetailInfo(final Long eventId) {
+        final Long userId = authInfoHelper.getUser().getUserId();
+        return eventRepository.findEventDetailInfo(eventId, userId)
+                .orElseThrow(() -> EventException.of(ErrorDetails.EVENT_NOT_FOUND));
+    }
+
+    @Transactional(readOnly = true)
+    public Slice<EventHostResponseDto> findEventByHost(Pageable pageable) {
+        final Long hostId = authInfoHelper.getUser().getUserId();
+        return eventRepository.findEventListByHostId(pageable,hostId);
+    }
+
+    @Transactional(readOnly = true)
+    public EventAdmissionResponseDto findEventAdmission(final Long eventId) {
+        return eventRepository.findEventAdmissionByEventId(eventId, List.of(EventStatus.DELETED, EventStatus.CLOSED))
+                .orElseThrow(() -> EventException.of(ErrorDetails.INVALID_EVENT));
+    }
+
+    @Transactional(readOnly = true)
+    public EventPerkResponseDto findEventPerk(final Long eventId) {
+        return eventRepository.findEventPerkByEventId(eventId)
                 .orElseThrow(() -> EventException.of(ErrorDetails.EVENT_NOT_FOUND));
     }
 
