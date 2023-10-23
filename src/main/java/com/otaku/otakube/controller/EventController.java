@@ -6,6 +6,7 @@ import com.otaku.otakube.dto.event.request.EventSaveRequestDto;
 import com.otaku.otakube.dto.event.response.*;
 import com.otaku.otakube.service.event.EventCreateService;
 import com.otaku.otakube.service.event.EventReadService;
+import com.otaku.otakube.service.report.ReportCreateService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -29,6 +30,7 @@ public class EventController {
 
     private final EventCreateService eventCreateService;
     private final EventReadService eventReadService;
+    private final ReportCreateService reportCreateService;
 
     @Operation(summary = "이벤트 등록 API", description = "이벤트 등록 API입니다.")
     @ApiResponses(
@@ -142,5 +144,27 @@ public class EventController {
     public ResponseEntity<BaseResponseDto<EventDetailResponseDto>> getEventDetailInfo(
             @ParameterObject @PathVariable(name = "eventId") final Long eventId) {
         return BaseResponseDto.success(eventReadService.findEventDetailInfo(eventId));
+    }
+
+    @Operation(summary = "이벤트 신고 API", description = "이벤트 신고 API입니다.")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            responseCode = "201",
+                            description = "신고 성공",
+                            useReturnTypeSchema = true
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "요청 실패",
+                            content = @Content(schema = @Schema(implementation = BaseErrorResponseDto.class))
+                    )
+            }
+    )
+    @PostMapping("/report/{eventId}")
+    public ResponseEntity<BaseResponseDto> reportEvent(
+            @ParameterObject @PathVariable(name = "eventId") final Long eventId) {
+        reportCreateService.createReport(eventId);
+        return BaseResponseDto.created();
     }
 }
