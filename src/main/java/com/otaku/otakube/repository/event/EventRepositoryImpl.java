@@ -1,6 +1,7 @@
 package com.otaku.otakube.repository.event;
 
 import com.otaku.otakube.dto.event.response.EventDetailResponseDto;
+import com.otaku.otakube.dto.event.response.EventHostResponseDto;
 import com.otaku.otakube.dto.event.response.EventListResponseDto;
 import com.otaku.otakube.dto.event.response.EventSearchResponseDto;
 import com.otaku.otakube.entity.event.EventStatus;
@@ -58,6 +59,42 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
                         wishList.user.userId.eq(userId).or(wishList.user.isNull()),
                         event.status.notIn(EventStatus.CLOSED, EventStatus.DELETED))
                 .fetchFirst());
+    }
+
+    @Override
+    public Slice<EventHostResponseDto> findEventListByHostId(Pageable pageable, Long hostId) {
+        final List<EventHostResponseDto> eventList = queryFactory
+                .select(
+                        Projections.constructor(
+                                EventHostResponseDto.class,
+                                event.eventId,
+                                event.featuredImage,
+                                event.name,
+                                event.xNickname,
+                                event.xId,
+                                subject.name,
+                                event.code,
+                                event.status
+                        )
+                )
+                .from(event)
+                .join(event.subject, subject)
+                .where(event.hostUser.userId.eq(hostId))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize() + 1L)
+                .orderBy(event.openedDate.desc())
+                .fetch();
+
+        boolean hasNext = false;
+
+
+        if (eventList.size() > pageable.getPageSize()){
+            hasNext = true;
+            eventList.remove(pageable.getPageSize());
+        }
+
+        return new SliceImpl<>(eventList, pageable, hasNext);
+
     }
 
     @Override
