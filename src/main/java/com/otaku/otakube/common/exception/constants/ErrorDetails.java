@@ -59,7 +59,11 @@ public enum ErrorDetails implements ResponseDetails {
     SUPPORT_NOT_FOUND(6200, HttpStatus.BAD_REQUEST.value(), "존재하지 않는 후원입니다."),
     SUPPORT_ALREADY_EXISTS(6201, HttpStatus.CONFLICT.value(), "이미 후원이 등록되었습니다."),
     SUPPORT_LOG_NOT_FOUND(6300, HttpStatus.BAD_REQUEST.value(), "존재하지 않는 후원 로그입니다."),
-    SUPPORT_LOG_FIND_ERROR(6301, HttpStatus.INTERNAL_SERVER_ERROR.value(), "후원 로그 조회 과정에서 에러가 발생했습니다.")
+    SUPPORT_LOG_FIND_ERROR(6301, HttpStatus.INTERNAL_SERVER_ERROR.value(), "후원 로그 조회 과정에서 에러가 발생했습니다."),
+
+
+    REPORT_NOT_FOUND(6000, HttpStatus.BAD_REQUEST.value(), "존재하지 않는 신고입니다."),
+    REPORT_ALREADY_EXISTS(6100, HttpStatus.CONFLICT.value(), "이미 해당 이벤트로 신고가 접수 되었습니다.")
     ;
 
 
