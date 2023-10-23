@@ -1,6 +1,7 @@
 package com.otaku.otakube.repository.event;
 
 import com.otaku.otakube.dto.event.response.EventAdmissionResponseDto;
+import com.otaku.otakube.dto.event.response.EventPerkResponseDto;
 import com.otaku.otakube.entity.event.Event;
 import com.otaku.otakube.entity.event.EventStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -23,7 +24,18 @@ public interface EventRepository extends JpaRepository<Event, Long>, EventReposi
             from Event e
             where e.eventId = :eventId and e.status not in :statuses
             """)
-    Optional<EventAdmissionResponseDto> findEventByEventIdAndStatus(
+    Optional<EventAdmissionResponseDto> findEventAdmissionByEventId(
             @Param("eventId") final Long eventId,@Param("statuses") final List<EventStatus> statuses);
+
+
+    @Query(value = """
+            select new com.otaku.otakube.dto.event.response.EventPerkResponseDto
+            (e.eventId,
+            e.name,
+            e.perksImage)
+            from Event e
+            where e.eventId = :eventId
+            """)
+    Optional<EventPerkResponseDto> findEventPerkByEventId(@Param("eventId") final Long eventId);
 
 }

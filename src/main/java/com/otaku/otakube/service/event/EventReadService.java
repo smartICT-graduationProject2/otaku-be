@@ -52,8 +52,14 @@ public class EventReadService {
 
     @Transactional(readOnly = true)
     public EventAdmissionResponseDto findEventAdmission(final Long eventId) {
-        return eventRepository.findEventByEventIdAndStatus(eventId, List.of(EventStatus.DELETED, EventStatus.CLOSED))
+        return eventRepository.findEventAdmissionByEventId(eventId, List.of(EventStatus.DELETED, EventStatus.CLOSED))
                 .orElseThrow(() -> EventException.of(ErrorDetails.INVALID_EVENT));
+    }
+
+    @Transactional(readOnly = true)
+    public EventPerkResponseDto findEventPerk(final Long eventId) {
+        return eventRepository.findEventPerkByEventId(eventId)
+                .orElseThrow(() -> EventException.of(ErrorDetails.EVENT_NOT_FOUND));
     }
 
     @Transactional(readOnly = true)
