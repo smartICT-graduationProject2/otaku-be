@@ -3,6 +3,7 @@ package com.otaku.otakube.controller;
 import com.otaku.otakube.common.dto.response.BaseErrorResponseDto;
 import com.otaku.otakube.common.dto.response.BaseResponseDto;
 import com.otaku.otakube.dto.event.request.EventSaveRequestDto;
+import com.otaku.otakube.dto.event.response.EventDetailResponseDto;
 import com.otaku.otakube.dto.event.response.EventListResponseDto;
 import com.otaku.otakube.dto.event.response.EventSaveResponseDto;
 import com.otaku.otakube.dto.event.response.EventSearchResponseDto;
@@ -101,5 +102,27 @@ public class EventController {
             @Parameter @RequestParam(name = "subject", required = false) final String subject,
             @Parameter @RequestParam(name = "is-wish-list", defaultValue = "false") final boolean isWishList) {
         return BaseResponseDto.success(eventReadService.findEventList(pageable, isWishList, subject));
+    }
+
+
+    @Operation(summary = "이벤트 상세 조회 API", description = "이벤트 상세 조회 API입니다.")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "조회 성공",
+                            useReturnTypeSchema = true
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "요청 실패",
+                            content = @Content(schema = @Schema(implementation = BaseErrorResponseDto.class))
+                    )
+            }
+    )
+    @GetMapping("/{eventId}")
+    public ResponseEntity<BaseResponseDto<EventDetailResponseDto>> getEventDetailInfo(
+            @ParameterObject @PathVariable(name = "eventId") final Long eventId) {
+        return BaseResponseDto.success(eventReadService.findEventDetailInfo(eventId));
     }
 }
