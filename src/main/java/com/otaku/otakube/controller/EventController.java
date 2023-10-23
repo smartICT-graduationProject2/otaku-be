@@ -124,6 +124,27 @@ public class EventController {
         return BaseResponseDto.success(eventReadService.findEventByHost(pageable));
     }
 
+    @Operation(summary = "이벤트 입장권 조회 API", description = "이벤트 입장권 조회 API 입니다.")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "조회 성공",
+                            useReturnTypeSchema = true
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "요청 실패",
+                            content = @Content(schema = @Schema(implementation = BaseErrorResponseDto.class))
+                    )
+            }
+    )
+    @GetMapping("/admission-ticket/{eventId}")
+    public ResponseEntity<BaseResponseDto<EventAdmissionResponseDto>> getEventAdmission(
+            @ParameterObject @PathVariable(name = "eventId") final Long eventId) {
+        return BaseResponseDto.success(eventReadService.findEventAdmission(eventId));
+    }
+
 
     @Operation(summary = "이벤트 상세 조회 API", description = "이벤트 상세 조회 API입니다.")
     @ApiResponses(

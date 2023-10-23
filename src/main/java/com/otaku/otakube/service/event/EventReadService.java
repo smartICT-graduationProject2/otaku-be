@@ -3,10 +3,7 @@ package com.otaku.otakube.service.event;
 import com.otaku.otakube.common.exception.constants.ErrorDetails;
 import com.otaku.otakube.common.exception.custom.event.EventException;
 import com.otaku.otakube.common.security.helper.AuthInfoHelper;
-import com.otaku.otakube.dto.event.response.EventDetailResponseDto;
-import com.otaku.otakube.dto.event.response.EventHostResponseDto;
-import com.otaku.otakube.dto.event.response.EventListResponseDto;
-import com.otaku.otakube.dto.event.response.EventSearchResponseDto;
+import com.otaku.otakube.dto.event.response.*;
 import com.otaku.otakube.entity.event.Event;
 import com.otaku.otakube.entity.event.EventStatus;
 import com.otaku.otakube.repository.event.EventRepository;
@@ -51,6 +48,12 @@ public class EventReadService {
     public Slice<EventHostResponseDto> findEventByHost(Pageable pageable) {
         final Long hostId = authInfoHelper.getUser().getUserId();
         return eventRepository.findEventListByHostId(pageable,hostId);
+    }
+
+    @Transactional(readOnly = true)
+    public EventAdmissionResponseDto findEventAdmission(final Long eventId) {
+        return eventRepository.findEventByEventIdAndStatus(eventId, List.of(EventStatus.DELETED, EventStatus.CLOSED))
+                .orElseThrow(() -> EventException.of(ErrorDetails.INVALID_EVENT));
     }
 
     @Transactional(readOnly = true)
