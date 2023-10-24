@@ -3,9 +3,8 @@ package com.otaku.otakube.controller;
 import com.otaku.otakube.common.dto.response.BaseErrorResponseDto;
 import com.otaku.otakube.common.dto.response.BaseResponseDto;
 import com.otaku.otakube.dto.host_inspection.response.HostInspectionResponseDto;
-import com.otaku.otakube.service.user.HostInspectionReadService;
-import com.otaku.otakube.service.user.HostInspectionUpdateService;
-import com.otaku.otakube.service.user.UserUpdateService;
+import com.otaku.otakube.dto.user.response.MyPageAdmissionResponseDto;
+import com.otaku.otakube.service.user.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -32,6 +31,7 @@ public class UserController {
     private final UserUpdateService userUpdateService;
     private final HostInspectionReadService hostInspectionReadService;
     private final HostInspectionUpdateService hostInspectionUpdateService;
+    private final MyPageReadService myPageReadService;
 
     @Operation(summary = "유저 회원 탈퇴 API", description = "유저 회원 탈퇴 API입니다.")
     @ApiResponses(
@@ -95,5 +95,25 @@ public class UserController {
     ) {
         hostInspectionUpdateService.updateHostInspection(hostInspectionId, inspectionResult);
         return BaseResponseDto.success("success!!");
+    }
+
+    @Operation(summary = "마이페이지 조회 입장권 API", description = "마이페이지 조회 입장권 API입니다.")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "조회 성공",
+                            useReturnTypeSchema = true
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "요청 실패",
+                            content = @Content(schema = @Schema(implementation = BaseErrorResponseDto.class))
+                    )
+            }
+    )
+    @GetMapping("/admission-tickets")
+    public ResponseEntity<BaseResponseDto<List<MyPageAdmissionResponseDto>>> getMyPageAdmission() {
+        return BaseResponseDto.success(myPageReadService.findUserAdmission());
     }
 }
