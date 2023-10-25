@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 
 
-@Schema(name = "이벤트 등록 응답 dto")
+@Schema(name = "대상 조회 후 이벤트 조회 응답 dto")
 @Builder
 public record EventListResponseDto(
         @Schema(description = "이벤트 아이디")
