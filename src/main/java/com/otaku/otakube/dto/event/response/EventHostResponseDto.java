@@ -23,6 +23,9 @@ public record EventHostResponseDto(
         @Schema(description = "이벤트 개최자 아이디")
         String xId,
 
+        @Schema(description = "이벤트 후원 아이디")
+        Long supportId,
+
         @Schema(description = "이벤트 주인공 이름")
         String subjectName,
 
