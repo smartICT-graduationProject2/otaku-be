@@ -24,4 +24,11 @@ public class MyPageReadService {
         return userRepository.findAdmissionList(user.getUserId());
     }
 
+    //마이페이지 조회 특전
+    public List<MyPageResponseDto> findUserPerks() {
+
+        User user = authInfoHelper.getUser();
+
+        return userRepository.findPerksList(user.getUserId());
+    }
 }

@@ -1,6 +1,7 @@
 package com.otaku.otakube.repository.user;
 
 import com.otaku.otakube.dto.user.response.MyPageResponseDto;
+import com.otaku.otakube.entity.log.EventLogStatus;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
@@ -35,6 +36,21 @@ public class UserRepositoryImpl implements UserRepositoryCustom{
                 .where(eventLog.user.userId.eq(userId),
                         event.openedDate.loe(now), //openedDate <= now
                         event.closedDate.goe(now)) //closedDate >= now
+                .fetch();
+    }
+
+    @Override
+    public List<MyPageResponseDto> findPerksList(Long userId) {
+        return queryFactory
+                .select(Projections.constructor(
+                        MyPageResponseDto.class,
+                        event.eventId,
+                        event.name,
+                        event.openedDate))
+                .from(eventLog)
+                .join(eventLog.event, event)
+                .where(eventLog.user.userId.eq(userId),
+                        eventLog.status.eq(EventLogStatus.ACTIVE)) //status == ACTIVE
                 .fetch();
     }
 }

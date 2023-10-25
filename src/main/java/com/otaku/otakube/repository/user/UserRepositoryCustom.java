@@ -8,4 +8,7 @@ public interface UserRepositoryCustom {
 
     //마이페이지 조회 입장권
     List<MyPageResponseDto> findAdmissionList(Long userId);
+
+    //마이페이지 조회 특전
+    List<MyPageResponseDto> findPerksList(Long userId);
 }

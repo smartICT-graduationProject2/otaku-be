@@ -134,6 +134,6 @@ public class UserController {
     )
     @GetMapping("/perks-image")
     public ResponseEntity<BaseResponseDto<List<MyPageResponseDto>>> getMyPagePerks() {
-        return null;
+        return BaseResponseDto.success(myPageReadService.findUserPerks());
     }
 }
