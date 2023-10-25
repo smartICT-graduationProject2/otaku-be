@@ -1,6 +1,6 @@
 package com.otaku.otakube.repository.user;
 
-import com.otaku.otakube.dto.user.response.MyPageAdmissionResponseDto;
+import com.otaku.otakube.dto.user.response.MyPageResponseDto;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
@@ -20,13 +20,13 @@ public class UserRepositoryImpl implements UserRepositoryCustom{
     }
 
     @Override
-    public List<MyPageAdmissionResponseDto> findAdmissionList(Long userId) {
+    public List<MyPageResponseDto> findAdmissionList(Long userId) {
 
         LocalDate now = LocalDate.now(); //현재 날짜
 
         return queryFactory
                 .select(Projections.constructor(
-                        MyPageAdmissionResponseDto.class,
+                        MyPageResponseDto.class,
                         event.eventId,
                         event.name,
                         event.openedDate))

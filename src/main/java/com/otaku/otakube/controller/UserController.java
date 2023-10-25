@@ -3,7 +3,7 @@ package com.otaku.otakube.controller;
 import com.otaku.otakube.common.dto.response.BaseErrorResponseDto;
 import com.otaku.otakube.common.dto.response.BaseResponseDto;
 import com.otaku.otakube.dto.host_inspection.response.HostInspectionResponseDto;
-import com.otaku.otakube.dto.user.response.MyPageAdmissionResponseDto;
+import com.otaku.otakube.dto.user.response.MyPageResponseDto;
 import com.otaku.otakube.service.user.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -113,7 +113,27 @@ public class UserController {
             }
     )
     @GetMapping("/admission-tickets")
-    public ResponseEntity<BaseResponseDto<List<MyPageAdmissionResponseDto>>> getMyPageAdmission() {
+    public ResponseEntity<BaseResponseDto<List<MyPageResponseDto>>> getMyPageAdmission() {
         return BaseResponseDto.success(myPageReadService.findUserAdmission());
+    }
+
+    @Operation(summary = "마이페이지 조회 특전 API", description = "마이페이지 조회 특전 API입니다.")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "조회 성공",
+                            useReturnTypeSchema = true
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "요청 실패",
+                            content = @Content(schema = @Schema(implementation = BaseErrorResponseDto.class))
+                    )
+            }
+    )
+    @GetMapping("/perks-image")
+    public ResponseEntity<BaseResponseDto<List<MyPageResponseDto>>> getMyPagePerks() {
+        return null;
     }
 }
