@@ -2,8 +2,7 @@ package com.otaku.otakube.controller;
 
 import com.otaku.otakube.common.dto.response.BaseErrorResponseDto;
 import com.otaku.otakube.common.dto.response.BaseResponseDto;
-import com.otaku.otakube.service.event.WishListCreateService;
-import com.otaku.otakube.service.event.WishListDeleteService;
+import com.otaku.otakube.dto.approval.request.ApprovalRequestDto;
 import com.otaku.otakube.service.eventlog.EventLogCreateService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -45,6 +44,29 @@ public class EventLogController {
     public ResponseEntity<BaseResponseDto> enrollPublicEvent(
             @Parameter @RequestParam final Long eventId) {
         eventLogCreateService.CreateExpectedEventLog(eventId);
+        return BaseResponseDto.created();
+    }
+
+    @Operation(summary = "비공개 이벤트 참여하기 API", description = "비공개 이벤트 참여하기 API입니다.")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            responseCode = "201",
+                            description = "생성 성공",
+                            useReturnTypeSchema = true
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "요청 실패",
+                            content = @Content(schema = @Schema(implementation = BaseErrorResponseDto.class))
+                    )
+            }
+    )
+    @PostMapping("/pre-auth")
+    public ResponseEntity<BaseResponseDto> enrollPrivateEvent(
+            @Parameter @RequestParam final Long eventId,
+            @RequestPart ApprovalRequestDto request) {
+        eventLogCreateService.CreatePreAuthEventLog(eventId, request);
         return BaseResponseDto.created();
     }
 }
