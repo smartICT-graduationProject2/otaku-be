@@ -7,6 +7,7 @@ import com.otaku.otakube.dto.event.response.EventSearchResponseDto;
 import com.otaku.otakube.entity.event.EventStatus;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -47,16 +48,21 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
                                 support.supportId,
                                 support.currentAmount,
                                 support.targetAmount,
-                                wishList.status.isNotNull(),
+                                JPAExpressions
+                                        .selectOne()
+                                        .from(wishList)
+                                        .where(
+                                                wishList.user.userId.eq(userId),
+                                                wishList.event.eventId.eq(event.eventId)
+                                        )
+                                        .exists(),
                                 event.createdAt
                         )
                 )
                 .from(event)
-                .leftJoin(event.wishLists, wishList)
+                .leftJoin(event.support, support)
                 .join(event.subject, subject)
-                .join(event.support, support)
                 .where( event.eventId.eq(eventId),
-                        wishList.user.userId.eq(userId).or(wishList.user.isNull()),
                         event.status.notIn(EventStatus.CLOSED, EventStatus.DELETED))
                 .fetchFirst());
     }
@@ -72,12 +78,14 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
                                 event.name,
                                 event.xNickname,
                                 event.xId,
+                                support.supportId,
                                 subject.name,
                                 event.code,
                                 event.status
                         )
                 )
                 .from(event)
+                .leftJoin(event.support, support)
                 .join(event.subject, subject)
                 .where(event.hostUser.userId.eq(hostId))
                 .offset(pageable.getOffset())
@@ -111,14 +119,19 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
                                 subject.name,
                                 event.address,
                                 event.status,
-                                wishList.status.isNotNull()
+                                JPAExpressions
+                                        .selectOne()
+                                        .from(wishList)
+                                        .where(
+                                                wishList.user.userId.eq(userId),
+                                                wishList.event.eventId.eq(event.eventId)
+                                        )
+                                        .exists()
                         )
                 )
                 .from(event)
-                .leftJoin(event.wishLists, wishList)
                 .join(event.subject, subject)
                 .where(subject.subjectId.eq(subjectId),
-                        wishList.user.userId.eq(userId).or(wishList.user.isNull()),
                         event.status.notIn(EventStatus.CLOSED, EventStatus.DELETED))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize() + 1L)
@@ -148,14 +161,19 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
                                 event.xId,
                                 subject.name,
                                 event.status,
-                                wishList.status.isNotNull()
+                                JPAExpressions
+                                        .selectOne()
+                                        .from(wishList)
+                                        .where(
+                                                wishList.user.userId.eq(userId),
+                                                wishList.event.eventId.eq(event.eventId)
+                                        )
+                                        .exists()
                         )
                 )
                 .from(event)
-                .leftJoin(event.wishLists, wishList)
                 .join(event.subject, subject)
                 .where( eqTodayEvent(todayEvent, query),
-                        wishList.user.userId.eq(userId).or(wishList.user.isNull()),
                         event.status.notIn(EventStatus.CLOSED, EventStatus.DELETED))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize() + 1L)
@@ -193,6 +211,7 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
                 .join(event.subject, subject)
                 .where( wishList.user.userId.eq(userId),
                         event.status.notIn(EventStatus.CLOSED, EventStatus.DELETED))
+                .orderBy(event.closedDate.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize() + 1L)
                 .fetch();
