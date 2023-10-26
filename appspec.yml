@@ -12,6 +12,9 @@ permissions:
     pattern: "**"
     owner: ubuntu
     group: ubuntu
+    mode: 777
+    type:
+      - file
 
 hooks:
   ApplicationStart:

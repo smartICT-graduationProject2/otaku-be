@@ -41,7 +41,4 @@ public class WishList extends BaseTimeEntity {
         this.event = event;
     }
 
-    public void disableWishList(){
-        this.status = WishListStatus.DELETED;
-    }
 }

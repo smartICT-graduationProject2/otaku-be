@@ -1,4 +1,4 @@
-package com.otaku.otakube.dto.host_inspection.response;
+package com.otaku.otakube.dto.hostInspection.response;
 
 import lombok.Builder;
 

@@ -1,5 +1,7 @@
 package com.otaku.otakube.service.common;
 
+import com.otaku.otakube.common.exception.constants.ErrorDetails;
+import com.otaku.otakube.common.exception.custom.CustomException;
 import com.otaku.otakube.common.utils.imageFileUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -8,7 +10,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
-import software.amazon.awssdk.services.s3.model.GetUrlRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
 import java.io.IOException;
@@ -45,13 +46,13 @@ public class AwsS3Service {
             s3Client.putObject(putObjectRequest, requestBody);
         } catch (IOException e) {
             log.error("cannot upload image",e);
-            throw new RuntimeException(e);
+            throw CustomException.of(ErrorDetails.IMAGE_UPLOAD_FAILED);
         }
 
         return cloudFrontUrl + fileName;
     }
 
-    public String getFileName(MultipartFile multipartFile) {
+    private String getFileName(MultipartFile multipartFile) {
         if(multipartFile.isEmpty()) return "";
         return imageFileUtils.buildFileName(multipartFile.getOriginalFilename());
     }

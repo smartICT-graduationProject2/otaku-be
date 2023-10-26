@@ -8,10 +8,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-
 import static jakarta.persistence.FetchType.LAZY;
 
+@Table(name = "t_report")
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -22,6 +21,7 @@ public class Report extends BaseTimeEntity {
     @Column
     private Long reportId;
 
+    @Column
     @Enumerated(EnumType.STRING)
     private ApprovalStatus status;
 
@@ -35,7 +35,7 @@ public class Report extends BaseTimeEntity {
         this.status = ApprovalStatus.RECEPTION;
     }
 
-    public void approvedReport(){
+    public void approveReport(){
         this.status = ApprovalStatus.APPROVED;
     }
 }

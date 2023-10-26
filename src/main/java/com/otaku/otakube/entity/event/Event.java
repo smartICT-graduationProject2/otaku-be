@@ -75,7 +75,7 @@ public class Event extends BaseTimeEntity {
     @JoinColumn(name = "subject_id")
     private Subject subject;
 
-    @OneToOne(mappedBy = "event", fetch = LAZY)
+    @OneToOne(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true, fetch = LAZY)
     private Support support;
 
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true, fetch = LAZY)
@@ -86,6 +86,9 @@ public class Event extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true, fetch = LAZY)
     private List<EventLog> eventLogs = new ArrayList<>();
+
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true, fetch = LAZY)
+    private List<Report> reportList = new ArrayList<>();
 
     public void saveAdditionalEventInformation(final User hostUser, final Subject eventSubject, final Integer code){
         this.hostUser = hostUser;

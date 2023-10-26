@@ -51,6 +51,10 @@ public class BaseResponseDto<T> {
         return ResponseEntity.ok(new BaseResponseDto<>(data));
     }
 
+    public static <T> ResponseEntity<BaseResponseDto> success() {
+        return ResponseEntity.status(200).body(new BaseResponseDto<>(null));
+    }
+
     public static <T> ResponseEntity<BaseResponseDto> created() {
         return ResponseEntity.status(201).body(new BaseResponseDto<>(null));
     }
