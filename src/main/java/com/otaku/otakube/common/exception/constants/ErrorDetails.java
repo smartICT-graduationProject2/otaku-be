@@ -56,6 +56,7 @@ public enum ErrorDetails implements ResponseDetails {
      */
     EVENT_NOT_FOUND(6000, HttpStatus.BAD_REQUEST.value(), "존재하지 않는 이벤트입니다."),
     INVALID_EVENT(6001, HttpStatus.BAD_REQUEST.value(), "유효하지 않은 이벤트입니다."),
+    INVALID_EVENT_RANGE(6002, HttpStatus.BAD_REQUEST.value(), "이벤트의 공개 상태를 확인해주세요."),
     SUBJECT_NOT_FOUND(6100, HttpStatus.BAD_REQUEST.value(), "존재하지 않는 이벤트 대상입니다."),
     SUPPORT_NOT_FOUND(6200, HttpStatus.BAD_REQUEST.value(), "존재하지 않는 후원입니다."),
     SUPPORT_ALREADY_EXISTS(6201, HttpStatus.CONFLICT.value(), "이미 후원이 등록되었습니다."),

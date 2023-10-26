@@ -1,5 +1,8 @@
 package com.otaku.otakube.service.eventlog;
 
+import com.otaku.otakube.common.exception.constants.ErrorDetails;
+import com.otaku.otakube.common.exception.custom.CustomException;
+import com.otaku.otakube.common.exception.custom.event.EventException;
 import com.otaku.otakube.common.security.helper.AuthInfoHelper;
 import com.otaku.otakube.dto.approval.request.ApprovalRequestDto;
 import com.otaku.otakube.entity.event.Event;
@@ -23,8 +26,12 @@ public class EventLogCreateService {
     private final ApprovalRepository approvalRepository;
 
     @Transactional
-    public void CreateExpectedEventLog(final Long eventId){
+    public void createExpectedEventLog(final Long eventId){
         Event eventForCreatingEventLog = eventReadService.findEventByIdAndStatus(eventId);
+
+        if (Boolean.TRUE.equals(eventForCreatingEventLog.getIsPublic()))
+            throw CustomException.of(ErrorDetails.INVALID_EVENT_RANGE);
+
         User user = authInfoHelper.getUser();
 
         eventLogRepository.save(
@@ -37,8 +44,12 @@ public class EventLogCreateService {
     }
 
     @Transactional
-    public void CreatePreAuthEventLog(final Long eventId, ApprovalRequestDto request){
+    public void createPreAuthEventLog(final Long eventId, ApprovalRequestDto request){
         Event eventForCreatingEventLog = eventReadService.findEventByIdAndStatus(eventId);
+
+        if (Boolean.TRUE.equals(eventForCreatingEventLog.getIsPublic()))
+            throw CustomException.of(ErrorDetails.INVALID_EVENT_RANGE);
+
         User user = authInfoHelper.getUser();
 
         eventLogRepository.save(

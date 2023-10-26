@@ -43,7 +43,7 @@ public class EventLogController {
     @PostMapping("/expected")
     public ResponseEntity<BaseResponseDto> enrollPublicEvent(
             @Parameter @RequestParam final Long eventId) {
-        eventLogCreateService.CreateExpectedEventLog(eventId);
+        eventLogCreateService.createExpectedEventLog(eventId);
         return BaseResponseDto.created();
     }
 
@@ -66,7 +66,7 @@ public class EventLogController {
     public ResponseEntity<BaseResponseDto> enrollPrivateEvent(
             @Parameter @RequestParam final Long eventId,
             @RequestPart ApprovalRequestDto request) {
-        eventLogCreateService.CreatePreAuthEventLog(eventId, request);
+        eventLogCreateService.createPreAuthEventLog(eventId, request);
         return BaseResponseDto.created();
     }
 }
