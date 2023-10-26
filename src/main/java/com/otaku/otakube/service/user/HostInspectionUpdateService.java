@@ -22,8 +22,7 @@ public class HostInspectionUpdateService {
                 .orElseThrow( () -> UserException.of(ErrorDetails.HOST_INSPECTION_NOT_FOUND));
 
         if(Boolean.FALSE.equals(inspectionResult)){
-            updatedHostInspection.dismissHostInspection();
-            hostInspectionRepository.save(updatedHostInspection);
+            hostInspectionRepository.delete(updatedHostInspection);
             return;
         }
 
