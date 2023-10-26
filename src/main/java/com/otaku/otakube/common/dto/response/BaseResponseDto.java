@@ -52,7 +52,7 @@ public class BaseResponseDto<T> {
     }
 
     public static <T> ResponseEntity<BaseResponseDto> success() {
-        return ResponseEntity.status(201).body(new BaseResponseDto<>(null));
+        return ResponseEntity.status(200).body(new BaseResponseDto<>(null));
     }
 
     public static <T> ResponseEntity<BaseResponseDto> created() {
