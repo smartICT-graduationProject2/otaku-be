@@ -39,11 +39,6 @@ public class HostInspection extends BaseTimeEntity {
         this.status = ApprovalStatus.APPROVED;
     }
 
-    public void dismissHostInspection(){
-        this.status = ApprovalStatus.DISMISS;
-        this.user = null;
-    }
-
     @PreUpdate
     protected void onUpdate() {
         modifiedDate = LocalDateTime.now();

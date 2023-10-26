@@ -113,15 +113,18 @@
 
         // API 요청을 보냄
         fetch(fullUrl, {
-            method: 'GET',
+            method: 'PUT',
             headers: headers
         })
             .then((response) => {
                 if (response.status === 200) {
                     alert('성공');
                 } else {
+                    console.log(response.body)
+                    console.log(response.status)
                     alert('실패');
                 }
+                window.location.reload();
             })
             .catch((error) => {
                 console.error('API 호출 중 오류 발생:', error);
@@ -133,7 +136,7 @@
     fillTable('/users/inspection-list', '/users/inspection/','left-table-body');
 
     // 오른쪽 테이블 데이터 채우기
-    fillTable('right_table_api_url_here','tempdata','right-table-body');
+    fillTable('/reports','/reports/','right-table-body');
 </script>
 </body>
 </html>

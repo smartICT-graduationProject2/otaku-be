@@ -2,6 +2,7 @@ package com.otaku.otakube.entity.event;
 
 import com.otaku.otakube.entity.common.BaseTimeEntity;
 import com.otaku.otakube.entity.log.Approval;
+import com.otaku.otakube.entity.log.EventLog;
 import com.otaku.otakube.entity.log.WishList;
 import com.otaku.otakube.entity.user.User;
 import jakarta.persistence.*;
@@ -74,7 +75,7 @@ public class Event extends BaseTimeEntity {
     @JoinColumn(name = "subject_id")
     private Subject subject;
 
-    @OneToOne(mappedBy = "event", fetch = LAZY)
+    @OneToOne(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true, fetch = LAZY)
     private Support support;
 
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true, fetch = LAZY)
@@ -83,6 +84,11 @@ public class Event extends BaseTimeEntity {
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true, fetch = LAZY)
     private List<WishList> wishLists = new ArrayList<>();
 
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true, fetch = LAZY)
+    private List<EventLog> eventLogs = new ArrayList<>();
+
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true, fetch = LAZY)
+    private List<Report> reportList = new ArrayList<>();
 
     public void saveAdditionalEventInformation(final User hostUser, final Subject eventSubject, final Integer code){
         this.hostUser = hostUser;
