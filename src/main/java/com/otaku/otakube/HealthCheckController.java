@@ -14,7 +14,6 @@ public class HealthCheckController {
 
     @GetMapping("/health-check")
     public ResponseEntity<BaseResponseDto<String>> healthCheck() {
-
         return BaseResponseDto.success("Health Check Success!");
     }
 }

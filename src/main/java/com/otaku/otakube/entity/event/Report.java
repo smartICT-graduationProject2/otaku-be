@@ -35,7 +35,7 @@ public class Report extends BaseTimeEntity {
         this.status = ApprovalStatus.RECEPTION;
     }
 
-    public void approvedReport(){
+    public void approveReport(){
         this.status = ApprovalStatus.APPROVED;
     }
 }

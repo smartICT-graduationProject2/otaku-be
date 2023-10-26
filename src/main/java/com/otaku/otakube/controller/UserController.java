@@ -2,7 +2,7 @@ package com.otaku.otakube.controller;
 
 import com.otaku.otakube.common.dto.response.BaseErrorResponseDto;
 import com.otaku.otakube.common.dto.response.BaseResponseDto;
-import com.otaku.otakube.dto.host_inspection.response.HostInspectionResponseDto;
+import com.otaku.otakube.dto.hostInspection.response.HostInspectionResponseDto;
 import com.otaku.otakube.service.user.HostInspectionReadService;
 import com.otaku.otakube.service.user.HostInspectionUpdateService;
 import com.otaku.otakube.service.user.UserUpdateService;
@@ -88,12 +88,12 @@ public class UserController {
         return BaseResponseDto.success(hostInspectionReadService.getHostInspectionTable());
     }
 
-    @GetMapping("/inspection/{hostInspectionId}")
-    public ResponseEntity<BaseResponseDto<String>> updateHostInspection(
+    @PutMapping("/inspection/{hostInspectionId}")
+    public ResponseEntity<BaseResponseDto> updateHostInspection(
             @ParameterObject @RequestParam(name = "inspectionResult") final Boolean inspectionResult,
             @PathVariable final Long hostInspectionId
     ) {
         hostInspectionUpdateService.updateHostInspection(hostInspectionId, inspectionResult);
-        return BaseResponseDto.success("success!!");
+        return BaseResponseDto.success();
     }
 }

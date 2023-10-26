@@ -1,6 +1,6 @@
 package com.otaku.otakube.service.user;
 
-import com.otaku.otakube.dto.host_inspection.response.HostInspectionResponseDto;
+import com.otaku.otakube.dto.hostInspection.response.HostInspectionResponseDto;
 import com.otaku.otakube.repository.user.HostInspectionRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
