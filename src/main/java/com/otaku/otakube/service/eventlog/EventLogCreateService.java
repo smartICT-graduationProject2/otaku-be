@@ -1,8 +1,5 @@
 package com.otaku.otakube.service.eventlog;
 
-import com.otaku.otakube.common.exception.constants.ErrorDetails;
-import com.otaku.otakube.common.exception.custom.CustomException;
-import com.otaku.otakube.common.exception.custom.event.EventException;
 import com.otaku.otakube.common.security.helper.AuthInfoHelper;
 import com.otaku.otakube.dto.approval.request.ApprovalRequestDto;
 import com.otaku.otakube.entity.event.Event;
@@ -10,9 +7,9 @@ import com.otaku.otakube.entity.log.Approval;
 import com.otaku.otakube.entity.log.EventLog;
 import com.otaku.otakube.entity.log.EventLogStatus;
 import com.otaku.otakube.entity.user.User;
-import com.otaku.otakube.repository.event.EventLogRepository;
-import com.otaku.otakube.repository.log.ApprovalRepository;
-import com.otaku.otakube.service.event.EventReadService;
+import com.otaku.otakube.repository.eventlog.EventLogRepository;
+import com.otaku.otakube.repository.approval.ApprovalRepository;
+import com.otaku.otakube.service.approval.ApprovalValidateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,23 +18,21 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class EventLogCreateService {
     private final EventLogRepository eventLogRepository;
-    private final EventReadService eventReadService;
+    private final EventLogValidateService eventLogValidateService;
     private final AuthInfoHelper authInfoHelper;
     private final ApprovalRepository approvalRepository;
+    private final ApprovalValidateService approvalValidateService;
 
     @Transactional
     public void createExpectedEventLog(final Long eventId){
-        Event eventForCreatingEventLog = eventReadService.findEventByIdAndStatus(eventId);
+        User applicant = authInfoHelper.getUser();
 
-        if (Boolean.TRUE.equals(eventForCreatingEventLog.getIsPublic()))
-            throw CustomException.of(ErrorDetails.INVALID_EVENT_RANGE);
-
-        User user = authInfoHelper.getUser();
+        Event eventForCreatingEventLog = eventLogValidateService.existsEventLog(eventId, applicant.getUserId(), false);
 
         eventLogRepository.save(
                 EventLog.builder()
                         .event(eventForCreatingEventLog)
-                        .user(user)
+                        .user(applicant)
                         .status(EventLogStatus.EXPECTED)
                         .build()
         );
@@ -45,17 +40,15 @@ public class EventLogCreateService {
 
     @Transactional
     public void createPreAuthEventLog(final Long eventId, ApprovalRequestDto request){
-        Event eventForCreatingEventLog = eventReadService.findEventByIdAndStatus(eventId);
+        User applicant = authInfoHelper.getUser();
 
-        if (Boolean.TRUE.equals(eventForCreatingEventLog.getIsPublic()))
-            throw CustomException.of(ErrorDetails.INVALID_EVENT_RANGE);
-
-        User user = authInfoHelper.getUser();
+        Event eventForCreatingEventLog = eventLogValidateService.existsEventLog(eventId, applicant.getUserId(), true);
+        approvalValidateService.existsApproval(eventId, applicant.getUserId());
 
         eventLogRepository.save(
                 EventLog.builder()
                         .event(eventForCreatingEventLog)
-                        .user(user)
+                        .user(applicant)
                         .status(EventLogStatus.PREAUTH)
                         .build()
         );
@@ -64,7 +57,7 @@ public class EventLogCreateService {
                 Approval.builder()
                         .xNickname(request.xNickname())
                         .xId(request.xId())
-                        .applicant(user)
+                        .applicant(applicant)
                         .event(eventForCreatingEventLog)
                         .build()
         );
