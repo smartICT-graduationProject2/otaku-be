@@ -88,12 +88,12 @@ public class UserController {
         return BaseResponseDto.success(hostInspectionReadService.getHostInspectionTable());
     }
 
-    @GetMapping("/inspection/{hostInspectionId}")
-    public ResponseEntity<BaseResponseDto<String>> updateHostInspection(
+    @PutMapping("/inspection/{hostInspectionId}")
+    public ResponseEntity<BaseResponseDto> updateHostInspection(
             @ParameterObject @RequestParam(name = "inspectionResult") final Boolean inspectionResult,
             @PathVariable final Long hostInspectionId
     ) {
         hostInspectionUpdateService.updateHostInspection(hostInspectionId, inspectionResult);
-        return BaseResponseDto.success("success!!");
+        return BaseResponseDto.success();
     }
 }
