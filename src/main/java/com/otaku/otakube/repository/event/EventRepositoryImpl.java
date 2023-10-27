@@ -227,6 +227,17 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
         return new SliceImpl<>(eventList, pageable, hasNext);
     }
 
+    @Override
+    public boolean existsEventByUserId(final Long eventId, final Long userId) {
+        return queryFactory
+                .selectFrom(event)
+                .where(
+                        event.eventId.eq(eventId),
+                        event.hostUser.userId.eq(userId)
+                )
+                .fetchFirst() != null;
+    }
+
     private BooleanExpression eqTodayEvent(final boolean todayEvent, final String query){
         return todayEvent? event.openedDate.loe(LocalDate.now()).and(event.closedDate.goe(LocalDate.now())): subject.name.like("%"+query+"%");
     }
