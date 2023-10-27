@@ -3,7 +3,9 @@ package com.otaku.otakube.controller;
 import com.otaku.otakube.common.dto.response.BaseErrorResponseDto;
 import com.otaku.otakube.common.dto.response.BaseResponseDto;
 import com.otaku.otakube.dto.approval.request.ApprovalRequestDto;
+import com.otaku.otakube.dto.event.response.EventPerkResponseDto;
 import com.otaku.otakube.service.eventlog.EventLogCreateService;
+import com.otaku.otakube.service.eventlog.EventLogUpdateService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 public class EventLogController {
 
     private final EventLogCreateService eventLogCreateService;
+    private final EventLogUpdateService eventLogUpdateService;
 
     @Operation(summary = "공개 이벤트 참여하기 API", description = "공개 이벤트 참여하기 API입니다.")
     @ApiResponses(
@@ -69,4 +72,27 @@ public class EventLogController {
         eventLogCreateService.createPreAuthEventLog(eventId, request);
         return BaseResponseDto.created();
     }
+
+    @Operation(summary = "이벤트 코드 입력 API", description = "이벤트 코드 입력 API입니다.")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "코드 입력 성공",
+                            useReturnTypeSchema = true
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "요청 실패",
+                            content = @Content(schema = @Schema(implementation = BaseErrorResponseDto.class))
+                    )
+            }
+    )
+    @PostMapping("/code")
+    public ResponseEntity<BaseResponseDto<EventPerkResponseDto>> registerEventCode(
+            @Parameter @RequestParam final Long eventId,
+            @Parameter @RequestParam final Integer code) {
+        return BaseResponseDto.success(eventLogUpdateService.updateEventLogStatus(eventId, code));
+    }
+
 }
