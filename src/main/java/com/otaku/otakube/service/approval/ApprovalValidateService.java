@@ -17,4 +17,10 @@ public class ApprovalValidateService {
         if (approvalRepository.existsApproval(eventId, applicantId))
             throw CustomException.of(ErrorDetails.APPROVAL_ALREADY_EXISTS);
     }
+
+    @Transactional(readOnly = true)
+    public void validateApprovalPermission(final Long approvalId, final Long hostId){
+        if (!approvalRepository.validateApprovalPermission(approvalId, hostId))
+            throw CustomException.of(ErrorDetails.APPROVAL_ALREADY_EXISTS);
+    }
 }

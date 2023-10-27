@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+import static com.otaku.otakube.entity.event.QEvent.event;
+import static com.otaku.otakube.entity.log.QApproval.approval;
 import static com.otaku.otakube.entity.log.QEventLog.eventLog;
 
 @AllArgsConstructor
@@ -28,12 +30,25 @@ public class EventLogRepositoryImpl implements EventLogRepositoryCustom{
 
     @Override
     public Optional<EventLog> findValidEventLogByEventAndUser(Long eventId, Long userId) {
-        return Optional.ofNullable(queryFactory
+        return Optional.ofNullable(
+                queryFactory
                 .selectFrom(eventLog)
                 .where(
                         eventLog.event.eventId.eq(eventId),
                         eventLog.user.userId.eq(userId),
                         eventLog.status.eq(EventLogStatus.EXPECTED)
+                )
+                .fetchFirst());
+    }
+
+    @Override
+    public Optional<EventLog> findValidEventLogByApproval(Long approvalId) {
+        return Optional.ofNullable(queryFactory
+                .selectFrom(eventLog)
+                .join(eventLog.event, event).fetchJoin()
+                .join(event.approvalList, approval).fetchJoin()
+                .where(
+                        approval.approvalId.eq(approvalId)
                 )
                 .fetchFirst());
     }
