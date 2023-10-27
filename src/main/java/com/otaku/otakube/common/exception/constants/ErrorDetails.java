@@ -49,6 +49,7 @@ public enum ErrorDetails implements ResponseDetails {
      */
     USER_NOT_FOUND(5000, HttpStatus.BAD_REQUEST.value(), "존재하지 않는 사용자입니다."),
     HOST_INSPECTION_NOT_FOUND(5100, HttpStatus.BAD_REQUEST.value(), "존재하지 않는 호스트 승인 요청입니다."),
+    HOST_INSPECTION_ALREADY_EXISTS(5101, HttpStatus.BAD_REQUEST.value(), "이미 호스트 승인 요청 되었습니다."),
 
 
     /**
