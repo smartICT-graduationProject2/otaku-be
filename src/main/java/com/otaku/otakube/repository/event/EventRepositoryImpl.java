@@ -14,6 +14,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -237,6 +239,35 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
                 )
                 .fetchFirst() != null;
     }
+
+
+
+//    @Transactional(propagation = Propagation.MANDATORY)
+//    @Override
+//    public void updateEventStatusAsInProgress() {
+//        queryFactory
+//                .update(event)
+//                .set(event.status, EventStatus.IN_PROGRESS)
+//                .where(
+//                        event.releasedAt.goe(LocalDate.now()),
+//                        event.status.eq(EventStatus.SCHEDULED)
+//                )
+//                .execute();
+//    }
+//
+//    @Transactional(propagation = Propagation.MANDATORY)
+//    @Override
+//    public void updateEventStatusAsCompleted() {
+//        queryFactory
+//                .update(event)
+//                .set(event.status, EventStatus.COMPLETED)
+//                .set(event.isMain, false)
+//                .where(
+//                        event.expiredAt.lt(LocalDate.now()),
+//                        event.status.eq(EventStatus.IN_PROGRESS)
+//                )
+//                .execute();
+//    }
 
     private BooleanExpression eqTodayEvent(final boolean todayEvent, final String query){
         return todayEvent? event.openedDate.loe(LocalDate.now()).and(event.closedDate.goe(LocalDate.now())): subject.name.like("%"+query+"%");
