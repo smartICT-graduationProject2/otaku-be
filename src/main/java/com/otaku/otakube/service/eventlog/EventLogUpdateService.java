@@ -10,6 +10,7 @@ import com.otaku.otakube.repository.eventlog.EventLogRepository;
 import com.otaku.otakube.service.event.EventReadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -34,5 +35,12 @@ public class EventLogUpdateService {
         eventLogRepository.save(eventLogForUpdating);
 
         return eventReadService.findEventPerk(eventId);
+    }
+
+    @Transactional(propagation = Propagation.MANDATORY)
+    public void updateEventLogToApprove(Long approvalId) {
+        EventLog eventLogForUpdating =  eventLogReadService.findEventLogByApproval(approvalId);
+        eventLogForUpdating.approvedEvent();
+        eventLogRepository.save(eventLogForUpdating);
     }
 }

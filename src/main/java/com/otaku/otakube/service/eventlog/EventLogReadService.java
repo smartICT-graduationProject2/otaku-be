@@ -18,4 +18,10 @@ public class EventLogReadService {
         return eventLogRepository.findValidEventLogByEventAndUser(eventId, applicantId)
                 .orElseThrow( () -> CustomException.of(ErrorDetails.EVENT_LOG_NOT_FOUND));
     }
+
+    @Transactional(readOnly = true)
+    public EventLog findEventLogByApproval(final Long approvalId){
+        return eventLogRepository.findValidEventLogByApproval(approvalId)
+                .orElseThrow( () -> CustomException.of(ErrorDetails.EVENT_LOG_NOT_FOUND));
+    }
 }
