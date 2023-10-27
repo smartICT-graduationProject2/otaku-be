@@ -48,7 +48,7 @@ public class WishListController {
         return BaseResponseDto.created();
     }
 
-    @Operation(summary = "사용자의 후원 등록 API", description = "사용자가 특정 이벤트에 대해 후원하는 API입니다.")
+    @Operation(summary = "관심 이벤트 해제 API", description = "사용자가 특정 이벤트에 대해 후원하는 API입니다.")
     @ApiResponses(
             value = {
                     @ApiResponse(
