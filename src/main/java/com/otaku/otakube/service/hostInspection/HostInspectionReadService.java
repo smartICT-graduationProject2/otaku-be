@@ -1,4 +1,4 @@
-package com.otaku.otakube.service.user;
+package com.otaku.otakube.service.hostInspection;
 
 import com.otaku.otakube.dto.hostInspection.response.HostInspectionResponseDto;
 import com.otaku.otakube.repository.user.HostInspectionRepository;

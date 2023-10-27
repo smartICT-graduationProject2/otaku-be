@@ -1,4 +1,4 @@
-package com.otaku.otakube.service.user;
+package com.otaku.otakube.service.hostInspection;
 
 import com.otaku.otakube.common.exception.constants.ErrorDetails;
 import com.otaku.otakube.common.exception.custom.user.UserException;

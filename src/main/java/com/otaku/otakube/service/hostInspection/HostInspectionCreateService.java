@@ -1,4 +1,4 @@
-package com.otaku.otakube.service.user;
+package com.otaku.otakube.service.hostInspection;
 
 import com.otaku.otakube.entity.user.HostInspection;
 import com.otaku.otakube.entity.user.User;
