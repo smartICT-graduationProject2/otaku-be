@@ -5,6 +5,7 @@ import com.otaku.otakube.common.dto.response.BaseResponseDto;
 import com.otaku.otakube.dto.admin.request.AdminLoginRequestDto;
 import com.otaku.otakube.dto.user.request.UserLoginRequestDto;
 import com.otaku.otakube.dto.user.request.UserRefreshTokensRequestDto;
+import com.otaku.otakube.dto.user.response.TokenAndRoleResponseDto;
 import com.otaku.otakube.dto.user.response.TokenResponseDto;
 import com.otaku.otakube.service.user.UserCreateService;
 import com.otaku.otakube.service.user.UserReadService;
@@ -48,7 +49,7 @@ public class AuthController {
             }
     )
     @PostMapping("/users/sign-up")
-    public ResponseEntity<BaseResponseDto<TokenResponseDto>> loginUser(@Valid @RequestBody final UserLoginRequestDto requestDto) {
+    public ResponseEntity<BaseResponseDto<TokenAndRoleResponseDto>> loginUser(@Valid @RequestBody final UserLoginRequestDto requestDto) {
         return BaseResponseDto.created(userCreateService.loginUser(requestDto));
     }
 
