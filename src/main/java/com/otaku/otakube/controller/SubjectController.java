@@ -93,10 +93,9 @@ public class SubjectController {
             }
     )
     @PostMapping
-    public ResponseEntity<BaseResponseDto> registerSubject(
+    public ResponseEntity<BaseResponseDto<Long>> registerSubject(
             @Valid @RequestBody final SubjectRequestDto dto) {
-        subjectCreateService.createSubject(dto);
-        return BaseResponseDto.created();
+        return BaseResponseDto.created(subjectCreateService.createSubject(dto));
     }
 
 }
