@@ -35,7 +35,7 @@ public class UserRepositoryImpl implements UserRepositoryCustom{
                 .where(eventLog.user.userId.eq(userId),
                         event.openedDate.loe(now), //openedDate <= now
                         event.closedDate.goe(now), //closedDate >= now
-                        eventLog.status.notIn(EventLogStatus.PREAUTH, EventLogStatus.DELETED))
+                        eventLog.status.eq(EventLogStatus.EXPECTED))
                 .fetch();
     }
 

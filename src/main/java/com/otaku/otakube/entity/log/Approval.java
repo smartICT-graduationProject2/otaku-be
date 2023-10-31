@@ -50,8 +50,7 @@ public class Approval extends BaseTimeEntity {
         this.status = ApprovalStatus.RECEPTION;
     }
 
-    //TODO: 이벤트 로그도 함께 변경
     public void approvedApplicant(){
-        this.status = ApprovalStatus.RECEPTION;
+        this.status = ApprovalStatus.APPROVED;
     }
 }

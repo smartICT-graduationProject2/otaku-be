@@ -38,4 +38,12 @@ public interface EventRepository extends JpaRepository<Event, Long>, EventReposi
             """)
     Optional<EventPerkResponseDto> findEventPerkByEventId(@Param("eventId") final Long eventId);
 
+    @Query(value = """
+            UPDATE t_event e
+            INNER JOIN t_event_log el ON e.event_id = el.event_id
+            SET e.status = 'CLOSED', el.status = 'DELETED'
+            WHERE e.closed_date > CURRENT_DATE
+            """, nativeQuery = true)
+    void markEventAsClosed();
+
 }

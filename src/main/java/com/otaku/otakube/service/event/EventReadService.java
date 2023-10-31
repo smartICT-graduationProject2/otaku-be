@@ -38,6 +38,13 @@ public class EventReadService {
     }
 
     @Transactional(readOnly = true)
+    public Event findEventForEventLog(final Long eventId) {
+        return eventRepository.findByEventIdAndStatusNotIn(eventId, List.of(EventStatus.DELETED, EventStatus.CLOSED, EventStatus.UNDEFINED))
+                .orElseThrow(() -> EventException.of(ErrorDetails.EVENT_NOT_FOUND));
+    }
+
+
+    @Transactional(readOnly = true)
     public EventDetailResponseDto findEventDetailInfo(final Long eventId) {
         final Long userId = authInfoHelper.getUser().getUserId();
         return eventRepository.findEventDetailInfo(eventId, userId)

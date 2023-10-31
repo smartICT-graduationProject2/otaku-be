@@ -14,6 +14,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -225,6 +227,30 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
         }
 
         return new SliceImpl<>(eventList, pageable, hasNext);
+    }
+
+    @Override
+    public boolean existsEventByUserId(final Long eventId, final Long userId) {
+        return queryFactory
+                .selectFrom(event)
+                .where(
+                        event.eventId.eq(eventId),
+                        event.hostUser.userId.eq(userId)
+                )
+                .fetchFirst() != null;
+    }
+
+    @Transactional(propagation = Propagation.MANDATORY)
+    @Override
+    public void markEventAsActive() {
+        queryFactory
+                .update(event)
+                .set(event.status, EventStatus.ACTIVE)
+                .where(
+                        event.openedDate.goe(LocalDate.now()),
+                        event.status.eq(EventStatus.PREPARATION)
+                )
+                .execute();
     }
 
     private BooleanExpression eqTodayEvent(final boolean todayEvent, final String query){

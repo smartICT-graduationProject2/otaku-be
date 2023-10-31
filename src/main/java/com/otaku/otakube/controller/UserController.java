@@ -3,11 +3,12 @@ package com.otaku.otakube.controller;
 import com.otaku.otakube.common.dto.response.BaseErrorResponseDto;
 import com.otaku.otakube.common.dto.response.BaseResponseDto;
 import com.otaku.otakube.dto.hostInspection.response.HostInspectionResponseDto;
-import com.otaku.otakube.service.user.HostInspectionReadService;
-import com.otaku.otakube.service.user.HostInspectionUpdateService;
-import com.otaku.otakube.service.user.UserUpdateService;
 import com.otaku.otakube.dto.user.response.MyPageResponseDto;
-import com.otaku.otakube.service.user.*;
+import com.otaku.otakube.service.hostInspection.HostInspectionCreateService;
+import com.otaku.otakube.service.hostInspection.HostInspectionReadService;
+import com.otaku.otakube.service.hostInspection.HostInspectionUpdateService;
+import com.otaku.otakube.service.user.MyPageReadService;
+import com.otaku.otakube.service.user.UserUpdateService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -33,6 +34,7 @@ import java.util.List;
 public class UserController {
     private final UserUpdateService userUpdateService;
     private final HostInspectionReadService hostInspectionReadService;
+    private final HostInspectionCreateService hostInspectionCreateService;
     private final HostInspectionUpdateService hostInspectionUpdateService;
     private final MyPageReadService myPageReadService;
 
@@ -81,7 +83,7 @@ public class UserController {
             )
             @RequestPart("image") final MultipartFile multipartFile
     ) {
-        userUpdateService.applyHost(multipartFile);
+        hostInspectionCreateService.applyHost(multipartFile);
         return BaseResponseDto.success("success");
     }
 

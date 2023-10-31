@@ -1,9 +1,9 @@
-package com.otaku.otakube.service.user;
+package com.otaku.otakube.service.hostInspection;
 
 import com.otaku.otakube.common.exception.constants.ErrorDetails;
 import com.otaku.otakube.common.exception.custom.user.UserException;
 import com.otaku.otakube.entity.user.HostInspection;
-import com.otaku.otakube.repository.user.HostInspectionRepository;
+import com.otaku.otakube.repository.hostInspection.HostInspectionRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

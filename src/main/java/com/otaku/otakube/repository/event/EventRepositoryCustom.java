@@ -19,4 +19,9 @@ public interface EventRepositoryCustom {
     Slice<EventSearchResponseDto> findEventListByCondition(Pageable pageable, boolean todayEvent, String query, Long userId);
 
     Slice<EventSearchResponseDto> findEventListByWishList(Pageable pageable, Long userId);
+
+    boolean existsEventByUserId(final Long eventId,final Long userId);
+
+    void markEventAsActive();
+
 }
