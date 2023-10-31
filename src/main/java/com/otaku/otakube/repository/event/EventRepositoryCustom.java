@@ -22,7 +22,6 @@ public interface EventRepositoryCustom {
 
     boolean existsEventByUserId(final Long eventId,final Long userId);
 
-//    void updateEventStatusAsInProgress();
-//
-//    void updateEventStatusAsCompleted();
+    void markEventAsActive();
+
 }

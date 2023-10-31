@@ -16,23 +16,20 @@ public class EventScheduleService {
 
     private final EventRepository eventRepository;
 
-//    @Scheduled(cron = "0 0 0 * * ?")
-//    @Transactional(propagation = Propagation.REQUIRES_NEW)
-//    public void updateEventStatus() {
-//        log.info("[EVENTS] start with : {}", Thread.currentThread().getName());
-//        markEventAsInProgress();
-//        markEventAsCompleted();
-//        log.info("[EVENTS] end with : {}", Thread.currentThread().getName());
-//    }
-//
-//    @Transactional(propagation = Propagation.MANDATORY)
-//    public void markEventAsInProgress(){
-//        eventRepository.updateEventStatusAsInProgress();
-//    }
-//
-//    @Transactional(propagation = Propagation.MANDATORY)
-//    public void markEventAsCompleted(){
-//        eventRepository.updateEventStatusAsCompleted();
-//    }
+    @Scheduled(cron = "0 0 0 * * ?")
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void markEventAsActive() {
+        log.info("[ACTIVE] start with : {}", Thread.currentThread().getName());
+        eventRepository.markEventAsActive();
+        log.info("[ACTIVE] end with : {}", Thread.currentThread().getName());
+    }
+
+    @Scheduled(cron = "0 0 0 * * ?")
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void markEventAsClosed() {
+        log.info("[CLOSED] start with : {}", Thread.currentThread().getName());
+        eventRepository.markEventAsClosed();
+        log.info("[CLOSED] end with : {}", Thread.currentThread().getName());
+    }
 
 }

@@ -240,34 +240,18 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
                 .fetchFirst() != null;
     }
 
-
-
-//    @Transactional(propagation = Propagation.MANDATORY)
-//    @Override
-//    public void updateEventStatusAsInProgress() {
-//        queryFactory
-//                .update(event)
-//                .set(event.status, EventStatus.IN_PROGRESS)
-//                .where(
-//                        event.releasedAt.goe(LocalDate.now()),
-//                        event.status.eq(EventStatus.SCHEDULED)
-//                )
-//                .execute();
-//    }
-//
-//    @Transactional(propagation = Propagation.MANDATORY)
-//    @Override
-//    public void updateEventStatusAsCompleted() {
-//        queryFactory
-//                .update(event)
-//                .set(event.status, EventStatus.COMPLETED)
-//                .set(event.isMain, false)
-//                .where(
-//                        event.expiredAt.lt(LocalDate.now()),
-//                        event.status.eq(EventStatus.IN_PROGRESS)
-//                )
-//                .execute();
-//    }
+    @Transactional(propagation = Propagation.MANDATORY)
+    @Override
+    public void markEventAsActive() {
+        queryFactory
+                .update(event)
+                .set(event.status, EventStatus.ACTIVE)
+                .where(
+                        event.openedDate.goe(LocalDate.now()),
+                        event.status.eq(EventStatus.PREPARATION)
+                )
+                .execute();
+    }
 
     private BooleanExpression eqTodayEvent(final boolean todayEvent, final String query){
         return todayEvent? event.openedDate.loe(LocalDate.now()).and(event.closedDate.goe(LocalDate.now())): subject.name.like("%"+query+"%");
