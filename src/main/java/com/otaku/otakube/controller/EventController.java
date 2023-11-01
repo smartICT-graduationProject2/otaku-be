@@ -20,6 +20,7 @@ import org.springframework.data.domain.Slice;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -47,6 +48,7 @@ public class EventController {
                     )
             }
     )
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     //이벤트 등록
     @PostMapping(value = "", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<BaseResponseDto<EventSaveResponseDto>> saveEvent(
@@ -118,6 +120,7 @@ public class EventController {
                     )
             }
     )
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/host")
     public ResponseEntity<BaseResponseDto<Slice<EventHostResponseDto>>> getEventListByHost(
             @ParameterObject @PageableDefault(size = 12) Pageable pageable) {

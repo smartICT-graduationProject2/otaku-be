@@ -20,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -52,6 +53,7 @@ public class SupportController {
                     )
             }
     )
+    @PreAuthorize("hasRole('ROLE_HOST')")
     @PostMapping
     public ResponseEntity<BaseResponseDto> registerSupport(
             @ParameterObject @RequestParam(name = "eventId") final Long eventId,
@@ -100,6 +102,7 @@ public class SupportController {
                     )
             }
     )
+    @PreAuthorize("hasRole('ROLE_HOST')")
     @GetMapping(value = "/{supportId}")
     public ResponseEntity<BaseResponseDto<List<SupportResponseDto>>> getSupportList(
             @ParameterObject @PathVariable(name = "supportId") final Long supportId) {
@@ -121,6 +124,7 @@ public class SupportController {
                     )
             }
     )
+    @PreAuthorize("hasRole('ROLE_HOST')")
     @PostMapping(value = "/approval")
     public ResponseEntity<BaseResponseDto> approveSupportLog(
             @Parameter @RequestParam final Long supportLogId) {
