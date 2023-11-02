@@ -15,4 +15,8 @@ public interface SubjectRepository extends JpaRepository<Subject, Long>, Subject
             from Subject e
             """)
     List<SubjectResponseDto> findAllSubjectList();
+
+    boolean existsByNameLike(String name);
+
+
 }
