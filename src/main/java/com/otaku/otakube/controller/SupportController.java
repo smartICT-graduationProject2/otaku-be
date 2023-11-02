@@ -4,6 +4,7 @@ import com.otaku.otakube.common.dto.response.BaseErrorResponseDto;
 import com.otaku.otakube.common.dto.response.BaseResponseDto;
 import com.otaku.otakube.dto.support.request.SupportRegisterRequestDto;
 import com.otaku.otakube.dto.support.request.SupportRequestDto;
+import com.otaku.otakube.dto.support.response.SupportInfoResponseDto;
 import com.otaku.otakube.dto.support.response.SupportResponseDto;
 import com.otaku.otakube.service.support.SupportCreateService;
 import com.otaku.otakube.service.support.SupportReadService;
@@ -78,9 +79,9 @@ public class SupportController {
             }
     )
     @GetMapping("/info/{supportId}")
-    public ResponseEntity<BaseResponseDto> registerSupport(
+    public ResponseEntity<BaseResponseDto<SupportInfoResponseDto>> registerSupport(
             @ParameterObject @PathVariable(name = "supportId") final Long supportId) {
-        return BaseResponseDto.created();
+        return BaseResponseDto.success(supportReadService.findSupportByEventId(supportId));
     }
 
     @Operation(summary = "사용자의 후원 등록 API", description = "사용자가 특정 이벤트에 대해 후원하는 API입니다.")

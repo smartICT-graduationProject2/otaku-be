@@ -2,6 +2,7 @@ package com.otaku.otakube.service.support;
 
 import com.otaku.otakube.common.exception.constants.ErrorDetails;
 import com.otaku.otakube.common.exception.custom.event.EventException;
+import com.otaku.otakube.dto.support.response.SupportInfoResponseDto;
 import com.otaku.otakube.dto.support.response.SupportResponseDto;
 import com.otaku.otakube.entity.common.ApprovalStatus;
 import com.otaku.otakube.entity.event.Support;
@@ -27,6 +28,12 @@ public class SupportReadService {
     @Transactional(readOnly = true)
     public Support findSupportById(final Long supportId) {
         return supportRepository.findById(supportId)
+                .orElseThrow( () -> EventException.of(ErrorDetails.SUPPORT_NOT_FOUND));
+    }
+
+    @Transactional(readOnly = true)
+    public SupportInfoResponseDto findSupportByEventId(final Long supportId) {
+        return supportRepository.findSupportInfoById(supportId)
                 .orElseThrow( () -> EventException.of(ErrorDetails.SUPPORT_NOT_FOUND));
     }
 
