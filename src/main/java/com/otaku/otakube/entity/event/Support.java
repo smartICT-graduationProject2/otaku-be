@@ -28,6 +28,9 @@ public class Support {
     private Long currentAmount;
 
     @Column
+    private String bank;
+
+    @Column
     private String accountAddress;
 
     @Column
@@ -45,7 +48,8 @@ public class Support {
     private Event event;
 
     @Builder
-    public Support(Long targetAmount, String accountAddress, String accountHolder, Event event) {
+    public Support(Long targetAmount, String bank, String accountAddress, String accountHolder, Event event) {
+        this.bank = bank;
         this.targetAmount = targetAmount; //목표 금액
         this.accountAddress = accountAddress; //계좌
         this.accountHolder = accountHolder; //예금주

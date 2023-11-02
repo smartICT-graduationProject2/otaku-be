@@ -62,6 +62,27 @@ public class SupportController {
         return BaseResponseDto.created();
     }
 
+    @Operation(summary = "이벤트에서 후원 조회 API", description = "이벤트에서 후원 조회 API입니다.")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            responseCode = "201",
+                            description = "생성 성공",
+                            useReturnTypeSchema = true
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "요청 실패",
+                            content = @Content(schema = @Schema(implementation = BaseErrorResponseDto.class))
+                    )
+            }
+    )
+    @GetMapping("/info/{supportId}")
+    public ResponseEntity<BaseResponseDto> registerSupport(
+            @ParameterObject @PathVariable(name = "supportId") final Long supportId) {
+        return BaseResponseDto.created();
+    }
+
     @Operation(summary = "사용자의 후원 등록 API", description = "사용자가 특정 이벤트에 대해 후원하는 API입니다.")
     @ApiResponses(
             value = {

@@ -7,6 +7,9 @@ import jakarta.validation.constraints.Size;
 
 @Schema(name = "사용자의 후원 등록 dto")
 public record SupportRequestDto (
+        @Schema(description = "은행명")
+        @Size(min = 1, max = 100)
+        String bank,
         @Schema(description = "계좌")
         @Size(min = 1, max = 100)
         String accountAddress,
