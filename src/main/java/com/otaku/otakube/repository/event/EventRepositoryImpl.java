@@ -38,6 +38,7 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
                         Projections.constructor(
                                 EventDetailResponseDto.class,
                                 event.eventId,
+                                event.isPublic,
                                 event.featuredImage,
                                 event.name,
                                 event.description,
