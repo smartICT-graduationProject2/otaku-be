@@ -4,6 +4,7 @@ import com.otaku.otakube.common.dto.response.BaseErrorResponseDto;
 import com.otaku.otakube.common.dto.response.BaseResponseDto;
 import com.otaku.otakube.dto.support.request.SupportRegisterRequestDto;
 import com.otaku.otakube.dto.support.request.SupportRequestDto;
+import com.otaku.otakube.dto.support.response.SupportInfoResponseDto;
 import com.otaku.otakube.dto.support.response.SupportResponseDto;
 import com.otaku.otakube.service.support.SupportCreateService;
 import com.otaku.otakube.service.support.SupportReadService;
@@ -60,6 +61,27 @@ public class SupportController {
             @Valid @RequestBody final SupportRequestDto dto) {
         supportCreateService.createSupport(dto, eventId);
         return BaseResponseDto.created();
+    }
+
+    @Operation(summary = "이벤트에서 후원 조회 API", description = "이벤트에서 후원 조회 API입니다.")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            responseCode = "201",
+                            description = "생성 성공",
+                            useReturnTypeSchema = true
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "요청 실패",
+                            content = @Content(schema = @Schema(implementation = BaseErrorResponseDto.class))
+                    )
+            }
+    )
+    @GetMapping("/info/{supportId}")
+    public ResponseEntity<BaseResponseDto<SupportInfoResponseDto>> registerSupport(
+            @ParameterObject @PathVariable(name = "supportId") final Long supportId) {
+        return BaseResponseDto.success(supportReadService.findSupportByEventId(supportId));
     }
 
     @Operation(summary = "사용자의 후원 등록 API", description = "사용자가 특정 이벤트에 대해 후원하는 API입니다.")

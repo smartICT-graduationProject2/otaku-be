@@ -40,6 +40,7 @@ public class SupportCreateService {
         supportRepository.save(
                 Support.builder()
                         .event(eventForCreatedSupport)
+                        .bank(dto.bank())
                         .accountAddress(dto.accountAddress())
                         .accountHolder(dto.accountHolder())
                         .targetAmount(dto.targetAmount())

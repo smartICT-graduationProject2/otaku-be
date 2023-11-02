@@ -13,6 +13,9 @@ public record EventDetailResponseDto(
         @Schema(description = "이벤트 아이디")
         Long eventId,
 
+        @Schema(description = "공개 상태")
+        Boolean isPublic,
+
         @Schema(description = "이벤트 대표 이미지")
         String featuredImage,
 
