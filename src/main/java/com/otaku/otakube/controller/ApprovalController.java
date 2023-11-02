@@ -68,7 +68,7 @@ public class ApprovalController {
                     )
             }
     )
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_HOST')")
     @PutMapping("/{approvalId}")
     public ResponseEntity<BaseResponseDto> approveUser(
             @ParameterObject @PathVariable(name = "approvalId") final Long approvalId) {

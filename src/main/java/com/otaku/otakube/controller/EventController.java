@@ -48,7 +48,7 @@ public class EventController {
                     )
             }
     )
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_HOST')")
     //이벤트 등록
     @PostMapping(value = "", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<BaseResponseDto<EventSaveResponseDto>> saveEvent(
@@ -120,7 +120,7 @@ public class EventController {
                     )
             }
     )
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_HOST')")
     @GetMapping("/host")
     public ResponseEntity<BaseResponseDto<Slice<EventHostResponseDto>>> getEventListByHost(
             @ParameterObject @PageableDefault(size = 12) Pageable pageable) {
