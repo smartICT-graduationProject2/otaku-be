@@ -79,7 +79,7 @@ public class SupportController {
             }
     )
     @GetMapping("/info/{supportId}")
-    public ResponseEntity<BaseResponseDto<SupportInfoResponseDto>> registerSupport(
+    public ResponseEntity<BaseResponseDto<SupportInfoResponseDto>> getSupportInfo(
             @ParameterObject @PathVariable(name = "supportId") final Long supportId) {
         return BaseResponseDto.success(supportReadService.findSupportByEventId(supportId));
     }
