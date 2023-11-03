@@ -52,6 +52,10 @@ dependencies {
     //redis
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
+    //caffeine cache
+    implementation 'org.springframework.boot:spring-boot-starter-cache'
+    implementation "com.github.ben-manes.caffeine:caffeine:3.1.8"
+
     //json 
     implementation 'com.fasterxml.jackson.module:jackson-module-jakarta-xmlbind-annotations'
     implementation 'com.fasterxml.jackson.core:jackson-core:2.15.1'

@@ -5,6 +5,7 @@ import com.otaku.otakube.dto.event.response.EventPerkResponseDto;
 import com.otaku.otakube.entity.event.Event;
 import com.otaku.otakube.entity.event.EventStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -38,11 +39,12 @@ public interface EventRepository extends JpaRepository<Event, Long>, EventReposi
             """)
     Optional<EventPerkResponseDto> findEventPerkByEventId(@Param("eventId") final Long eventId);
 
+    @Modifying
     @Query(value = """
             UPDATE t_event e
             INNER JOIN t_event_log el ON e.event_id = el.event_id
             SET e.status = 'CLOSED', el.status = 'DELETED'
-            WHERE e.closed_date > CURRENT_DATE
+            WHERE e.closed_date < CURRENT_DATE
             """, nativeQuery = true)
     void markEventAsClosed();
 
