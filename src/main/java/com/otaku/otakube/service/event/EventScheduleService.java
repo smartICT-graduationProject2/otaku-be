@@ -16,20 +16,20 @@ public class EventScheduleService {
 
     private final EventRepository eventRepository;
 
-    @Scheduled(cron = "0 0 0 * * ?")
+    @Scheduled(cron = "0 0 0 * * ?") // 매일 자정에 실행
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void markEventAsActive() {
-        log.info("[ACTIVE] start with : {}", Thread.currentThread().getName());
+        log.error("[ACTIVE] start with : {}", Thread.currentThread().getName());
         eventRepository.markEventAsActive();
-        log.info("[ACTIVE] end with : {}", Thread.currentThread().getName());
+        log.error("[ACTIVE] end with : {}", Thread.currentThread().getName());
     }
 
-    @Scheduled(cron = "0 0 0 * * ?")
+    @Scheduled(cron = "0 0 0 * * ?") // 매일 자정에 실행
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void markEventAsClosed() {
-        log.info("[CLOSED] start with : {}", Thread.currentThread().getName());
+        log.error("[CLOSED] start with : {}", Thread.currentThread().getName());
         eventRepository.markEventAsClosed();
-        log.info("[CLOSED] end with : {}", Thread.currentThread().getName());
+        log.error("[CLOSED] end with : {}", Thread.currentThread().getName());
     }
 
 }
