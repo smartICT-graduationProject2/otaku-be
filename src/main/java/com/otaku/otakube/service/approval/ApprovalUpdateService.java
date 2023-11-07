@@ -26,8 +26,7 @@ public class ApprovalUpdateService {
         eventLogUpdateService.updateEventLogToApprove(approvalId);
     }
 
-    @Transactional(propagation = Propagation.MANDATORY)
-    public void updateApprovalToApprove(Long approvalId, Long hostId, Approval approvalForUpdating) {
+    private void updateApprovalToApprove(Long approvalId, Long hostId, Approval approvalForUpdating) {
         approvalValidateService.validateApprovalPermission(approvalId, hostId);
         approvalForUpdating.approvedApplicant();
         approvalRepository.save(approvalForUpdating);

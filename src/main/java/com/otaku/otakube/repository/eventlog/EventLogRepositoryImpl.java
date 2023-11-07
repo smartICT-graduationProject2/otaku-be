@@ -45,8 +45,8 @@ public class EventLogRepositoryImpl implements EventLogRepositoryCustom{
     public Optional<EventLog> findValidEventLogByApproval(Long approvalId) {
         return Optional.ofNullable(queryFactory
                 .selectFrom(eventLog)
-                .join(eventLog.event, event).fetchJoin()
-                .join(event.approvalList, approval).fetchJoin()
+                .join(eventLog.event, event)
+                .join(event.approvalList, approval)
                 .where(
                         approval.approvalId.eq(approvalId)
                 )
