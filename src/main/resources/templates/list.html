@@ -79,9 +79,8 @@
                     urlButton.textContent = 'view';
                     cell2.appendChild(urlButton);
 
-                    urlButton.addEventListener('click', function () {
-                        window.location.href = item.authUrl;
-                    })
+                    urlButton.addEventListener('click', () => onImageClick(item.authUrl));
+
 
                     const approveButton = document.createElement('button');
                     approveButton.textContent = '승인';
@@ -131,6 +130,34 @@
             });
     }
 
+
+    function onImageClick(url) {
+
+        if (url.startsWith('https')){
+            window.location.href = url;
+            return;
+        }
+
+        // API 요청을 보냄
+        fetch(url, {
+            method: 'GET',
+            headers: headers
+        })
+            .then((response) => {
+                if (response.status === 200) {
+                    alert('성공');
+                } else {
+                    console.log(response.body)
+                    console.log(response.status)
+                    alert('실패');
+                }
+                window.location.reload();
+            })
+            .catch((error) => {
+                console.error('API 호출 중 오류 발생:', error);
+            });
+
+    }
 
     // 왼쪽 테이블 데이터 채우기
     fillTable('/users/inspection-list', '/users/inspection/','left-table-body');
