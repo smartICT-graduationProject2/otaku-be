@@ -68,7 +68,7 @@ public class EventLogController {
     @PostMapping("/pre-auth")
     public ResponseEntity<BaseResponseDto> enrollPrivateEvent(
             @Parameter @RequestParam final Long eventId,
-            @RequestPart ApprovalRequestDto request) {
+            @RequestBody ApprovalRequestDto request) {
         eventLogCreateService.createPreAuthEventLog(eventId, request);
         return BaseResponseDto.created();
     }
