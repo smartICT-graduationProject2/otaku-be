@@ -33,7 +33,6 @@ public class UserRepositoryImpl implements UserRepositoryCustom{
                 .from(eventLog)
                 .join(eventLog.event, event)
                 .where(eventLog.user.userId.eq(userId),
-                        event.openedDate.loe(now), //openedDate <= now
                         event.closedDate.goe(now), //closedDate >= now
                         eventLog.status.eq(EventLogStatus.EXPECTED))
                 .fetch();
