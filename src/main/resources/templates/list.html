@@ -145,11 +145,12 @@
         })
             .then((response) => {
                 if (response.status === 200) {
-                    console.log(response.body);
+                    console.log(response.body)
+                    console.log(response.url)
                     alert('성공');
                 } else {
-                    console.log(response.body);
-                    console.log(response.status);
+                    console.log(response.body)
+                    console.log(response.status)
                     alert('실패');
                 }
                 window.location.reload();
