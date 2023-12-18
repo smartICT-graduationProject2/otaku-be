@@ -13,7 +13,7 @@ public class AdminController {
 
     @GetMapping("/view")
     public String loginPage() {
-        return "login"; // 홈 페이지
+        return "login"; // 홈 페이지,,
     }
 
     @GetMapping("/view/list")
